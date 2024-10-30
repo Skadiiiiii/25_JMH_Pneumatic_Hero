@@ -1,0 +1,26 @@
+--cpu=Cortex-M4.fp.sp
+"25_hero_chassis\startup_stm32f427xx.o"
+"25_hero_chassis\main.o"
+"25_hero_chassis\gpio.o"
+"25_hero_chassis\stm32f4xx_it.o"
+"25_hero_chassis\stm32f4xx_hal_msp.o"
+"25_hero_chassis\stm32f4xx_hal_tim.o"
+"25_hero_chassis\stm32f4xx_hal_tim_ex.o"
+"25_hero_chassis\stm32f4xx_hal_rcc.o"
+"25_hero_chassis\stm32f4xx_hal_rcc_ex.o"
+"25_hero_chassis\stm32f4xx_hal_flash.o"
+"25_hero_chassis\stm32f4xx_hal_flash_ex.o"
+"25_hero_chassis\stm32f4xx_hal_flash_ramfunc.o"
+"25_hero_chassis\stm32f4xx_hal_gpio.o"
+"25_hero_chassis\stm32f4xx_hal_dma_ex.o"
+"25_hero_chassis\stm32f4xx_hal_dma.o"
+"25_hero_chassis\stm32f4xx_hal_pwr.o"
+"25_hero_chassis\stm32f4xx_hal_pwr_ex.o"
+"25_hero_chassis\stm32f4xx_hal_cortex.o"
+"25_hero_chassis\stm32f4xx_hal.o"
+"25_hero_chassis\stm32f4xx_hal_exti.o"
+"25_hero_chassis\system_stm32f4xx.o"
+--strict --scatter "25_Hero_Chassis\25_Hero_Chassis.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "25_Hero_Chassis.map" -o 25_Hero_Chassis\25_Hero_Chassis.axf
