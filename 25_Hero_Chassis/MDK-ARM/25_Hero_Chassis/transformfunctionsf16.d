@@ -33,5 +33,4 @@
 25_hero_chassis\transformfunctionsf16.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/complex_math_functions_f16.h
 25_hero_chassis\transformfunctionsf16.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/matrix_functions_f16.h
 25_hero_chassis\transformfunctionsf16.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Source\TransformFunctions\arm_cfft_radix2_init_f16.c
-25_hero_chassis\transformfunctionsf16.o: ..\Drivers\CMSIS\DSP\Include\arm_common_tables.h
 25_hero_chassis\transformfunctionsf16.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Source\TransformFunctions\arm_cfft_radix4_init_f16.c

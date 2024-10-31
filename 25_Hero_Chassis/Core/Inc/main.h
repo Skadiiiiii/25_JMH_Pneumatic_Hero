@@ -16,6 +16,7 @@
   *
   ******************************************************************************
   */
+#define LIMIT_MIN_MAX(x,min,max) (x) = (((x)<=(min))?(min):(((x)>=(max))?(max):(x)))
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/

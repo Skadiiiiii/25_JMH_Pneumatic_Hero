@@ -14,6 +14,10 @@
 25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/utils.h
 25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Source\SupportFunctions\arm_bitonic_sort_f32.c
 25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\PrivateInclude\arm_sorting.h
-25_hero_chassis\supportfunctions.o: ..\Drivers\CMSIS\DSP\Include\arm_math.h
-25_hero_chassis\supportfunctions.o: ../Drivers/CMSIS/Include/core_cm4.h
-25_hero_chassis\supportfunctions.o: ../Drivers/CMSIS/Include/cmsis_version.h
+25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\arm_math.h
+25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/basic_math_functions.h
+25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/interpolation_functions.h
+25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/bayes_functions.h
+25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/statistics_functions.h
+25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/fast_math_functions.h
+25_hero_chassis\supportfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/matrix_functions.h

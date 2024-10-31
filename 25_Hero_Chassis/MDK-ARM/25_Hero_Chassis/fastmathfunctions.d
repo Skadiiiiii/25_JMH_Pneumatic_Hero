@@ -13,7 +13,4 @@
 25_hero_chassis\fastmathfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/none.h
 25_hero_chassis\fastmathfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/utils.h
 25_hero_chassis\fastmathfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\dsp/basic_math_functions.h
-25_hero_chassis\fastmathfunctions.o: ..\Drivers\CMSIS\DSP\Include\arm_common_tables.h
-25_hero_chassis\fastmathfunctions.o: ..\Drivers\CMSIS\DSP\Include\arm_math.h
-25_hero_chassis\fastmathfunctions.o: ../Drivers/CMSIS/Include/core_cm4.h
-25_hero_chassis\fastmathfunctions.o: ../Drivers/CMSIS/Include/cmsis_version.h
+25_hero_chassis\fastmathfunctions.o: C:\keil5\ARM\CMSIS-DSP\1.15.0\Include\arm_common_tables.h
