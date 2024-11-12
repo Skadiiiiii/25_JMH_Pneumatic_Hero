@@ -33,7 +33,6 @@
 25_hero_chassis\robot_control_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 25_hero_chassis\robot_control_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 25_hero_chassis\robot_control_task.o: ../Control/chassis_control.h
-25_hero_chassis\robot_control_task.o: ../Core/Inc/main.h
 25_hero_chassis\robot_control_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\robot_control_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 25_hero_chassis\robot_control_task.o: ../Core/Inc/FreeRTOSConfig.h
@@ -50,10 +49,7 @@
 25_hero_chassis\robot_control_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 25_hero_chassis\robot_control_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\robot_control_task.o: ..\Task\Robot_control_task.h
-25_hero_chassis\robot_control_task.o: ../Core/Inc/main.h
 25_hero_chassis\robot_control_task.o: ../Devices/dr16.h
 25_hero_chassis\robot_control_task.o: ../Core/Inc/usart.h
-25_hero_chassis\robot_control_task.o: ../Core/Inc/main.h
-25_hero_chassis\robot_control_task.o: ../Core/Inc/main.h
 25_hero_chassis\robot_control_task.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 25_hero_chassis\robot_control_task.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h

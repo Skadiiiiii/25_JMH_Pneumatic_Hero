@@ -2,7 +2,7 @@
 #include "string.h"
 
 /**
- * @brief			二阶波巴特沃斯滤波
+ * @brief	 二阶波巴特沃斯滤波
  * @param[out]	input : 输入数据
  * @param[in]		output : 原始数据
  */
@@ -18,7 +18,11 @@ void int_Batwolf(int16_t *input,int16_t *output,int16_t* x)
 	
 }
 
-
+/**
+ * @brief  二阶波巴特沃斯滤波
+ * @param[out]	input : 输入数据
+ * @param[in]		output : 原始数据
+ */
 void float_Batwolf(float *input,float *output,float* y)
 {
 	
@@ -32,7 +36,7 @@ void float_Batwolf(float *input,float *output,float* y)
 }
 
 /**
- * @brief			将滤波系数清零
+ * @brief  将滤波系数清零
  */
 void ClearFilter(float filter[],int size)
 {

@@ -33,6 +33,4 @@
 25_hero_chassis\ano.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 25_hero_chassis\ano.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 25_hero_chassis\ano.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-25_hero_chassis\ano.o: ../Core/Inc/main.h
 25_hero_chassis\ano.o: ../Core/Inc/usart.h
-25_hero_chassis\ano.o: ../Core/Inc/main.h

@@ -35,7 +35,7 @@
 25_hero_chassis\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
 25_hero_chassis\stm32f4xx_it.o: ../Devices/dr16.h
 25_hero_chassis\stm32f4xx_it.o: ../Core/Inc/usart.h
-25_hero_chassis\stm32f4xx_it.o: ../Core/Inc/main.h
-25_hero_chassis\stm32f4xx_it.o: ../Core/Inc/main.h
 25_hero_chassis\stm32f4xx_it.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 25_hero_chassis\stm32f4xx_it.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
+25_hero_chassis\stm32f4xx_it.o: ../Devices/RM_JudgeSystem.h
+25_hero_chassis\stm32f4xx_it.o: C:\keil5\ARM\ARMCC\Bin\..\include\string.h

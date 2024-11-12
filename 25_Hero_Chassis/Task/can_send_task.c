@@ -21,14 +21,14 @@ static void DR16_0x175_Can1_SendData(uint8_t *data)
 	TxMessage.DLC = 0x08;           //设置数据长度
 	TxMessage.StdId = 0x175;        //设置ID号
 	
-	can1_send_data.pack.RF_3508 = M3508s_chassis[RF_201_3508].state;
-	can1_send_data.pack.LF_3508 = M3508s_chassis[LF_202_3508].state;
-	can1_send_data.pack.RB_3508 = M3508s_chassis[RB_203_3508].state;
+	can1_send_data.pack.RF_3508 = M3508s_chassis[RF_202_3508].state;
+	can1_send_data.pack.LF_3508 = M3508s_chassis[LF_203_3508].state;
+	can1_send_data.pack.RB_3508 = M3508s_chassis[RB_201_3508].state;
 	can1_send_data.pack.LB_3508 = M3508s_chassis[LB_204_3508].state;
 	
-	can1_send_data.pack.RF_6020 = M6020s_chassis[RF_205_6020].state;
-	can1_send_data.pack.LF_6020 = M6020s_chassis[LF_206_6020].state;
-	can1_send_data.pack.RB_6020 = M6020s_chassis[RB_207_6020].state;
+	can1_send_data.pack.RF_6020 = M6020s_chassis[RF_206_6020].state;
+	can1_send_data.pack.LF_6020 = M6020s_chassis[LF_207_6020].state;
+	can1_send_data.pack.RB_6020 = M6020s_chassis[RB_205_6020].state;
 	can1_send_data.pack.LB_6020 = M6020s_chassis[LB_208_6020].state;
 	
 	can1_send_data.pack.WorkMode = DR16_Export_Data.ChassisWorkMode;

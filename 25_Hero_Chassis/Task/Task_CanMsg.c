@@ -2,6 +2,8 @@
 #include "M3508_Motor.h"
 #include "M6020_Motor.h"
 #include "M2006_Motor.h"
+#include "Power_Meter.h"
+#include "SupCap.h"
 
 /**
   * @brief  can1接收任务
@@ -21,6 +23,14 @@ void CAN1_REC(void const *argument)
 		else if (ID == M2006_Shoot_ID)
 		{
 			M2006_shoot_getInfo(Can_Export_Data);
+		}
+		else if(ID == INA226_CANID)
+		{
+			Power_meter_getInfo(Can_Export_Data);
+		}
+		else if(ID == SCCM_RECEIVE_ID)
+		{
+			SupCap.FUN.MsgProcess(Can_Export_Data);
 		}
 	}
 }
@@ -45,10 +55,6 @@ void CAN2_REC(void const *argument)
 		{
 			M6020_chassis_getInfo(Can_Export_Data);
 		}
-//		if(ID == 0x203)
-//		{
-//			M2006_shoot_getInfo(Can_Export_Data);
-//		}
 		
 	}
 }

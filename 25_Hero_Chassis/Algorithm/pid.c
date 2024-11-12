@@ -2,6 +2,7 @@
 #include "M3508_motor.h"
 #include "M6020_motor.h"
 #include "cloud_control.h"
+#include "AddMath.h"
 
 pid_struct_t motor_pid_chassis[4];
 pid_Cascade_t motor_pid_chassis_6020[4];
@@ -13,7 +14,7 @@ pid_Cascade_t motor_pid_Cas_Yaw;
 pid_Cascade_t motor_pid_Cas_Pitch;
 
 /**
-  * @brief PID参数初始化
+  * @brief  PID参数初始化
   */
 void pid_init(pid_struct_t *pid,
               float kp,
@@ -135,16 +136,16 @@ void motor_pid_init()
 	pid_init(&motor_pid_chassis_6020_stop[3].inner, 50.0f, 0.8f ,0, 4000, 9000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
 	pid_init(&motor_pid_chassis_6020_stop[3].outer, 0.5f,0,0,2000,1000);
 	
-	pid_init(&motor_pid_chassis_6020[0].inner, 50.0f, 0.8f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
-	pid_init(&motor_pid_chassis_6020[0].outer, 15.0f,0,0,2000,1000);
+	pid_init(&motor_pid_chassis_6020[0].inner, 60.0f, 2.5f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
+	pid_init(&motor_pid_chassis_6020[0].outer, 20.0f,0,0,2000,2000);
 
-	pid_init(&motor_pid_chassis_6020[1].inner, 50.0f, 0.8f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
-	pid_init(&motor_pid_chassis_6020[1].outer, 15.0f,0,0,2000,1000);
+	pid_init(&motor_pid_chassis_6020[1].inner, 60.0f, 2.5f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
+	pid_init(&motor_pid_chassis_6020[1].outer, 20.0f,0,0,2000,2000);
 
-	pid_init(&motor_pid_chassis_6020[2].inner, 50.0f, 0.8f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
-	pid_init(&motor_pid_chassis_6020[2].outer, 15.0f,0,0,2000,1000);
+	pid_init(&motor_pid_chassis_6020[2].inner, 50.0f, 2.5f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
+	pid_init(&motor_pid_chassis_6020[2].outer, 15.0f,0,0,2000,2000);
 
-	pid_init(&motor_pid_chassis_6020[3].inner, 50.0f, 0.8f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
-	pid_init(&motor_pid_chassis_6020[3].outer, 15.0f,0,0,2000,1000); 
+	pid_init(&motor_pid_chassis_6020[3].inner, 50.0f, 2.5f ,0, 8000, 15000); //init pid 速度, kp=9.5, ki=0.3, kd=0, output limit = 15000
+	pid_init(&motor_pid_chassis_6020[3].outer, 15.0f,0,0,2000,2000); 
 }
 

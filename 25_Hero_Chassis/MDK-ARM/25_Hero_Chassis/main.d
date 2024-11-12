@@ -47,10 +47,6 @@
 25_hero_chassis\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 25_hero_chassis\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 25_hero_chassis\main.o: ../Core/Inc/can.h
-25_hero_chassis\main.o: ../Core/Inc/main.h
 25_hero_chassis\main.o: ../Core/Inc/dma.h
-25_hero_chassis\main.o: ../Core/Inc/main.h
 25_hero_chassis\main.o: ../Core/Inc/usart.h
-25_hero_chassis\main.o: ../Core/Inc/main.h
 25_hero_chassis\main.o: ../Core/Inc/gpio.h
-25_hero_chassis\main.o: ../Core/Inc/main.h

@@ -35,7 +35,6 @@
 25_hero_chassis\cloud_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 25_hero_chassis\cloud_control.o: ../BSP/bsp_can.h
 25_hero_chassis\cloud_control.o: ../Core/Inc/can.h
-25_hero_chassis\cloud_control.o: ../Core/Inc/main.h
 25_hero_chassis\cloud_control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\cloud_control.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 25_hero_chassis\cloud_control.o: ../Core/Inc/FreeRTOSConfig.h
@@ -56,4 +55,3 @@
 25_hero_chassis\cloud_control.o: ../Motor/M6020_motor.h
 25_hero_chassis\cloud_control.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 25_hero_chassis\cloud_control.o: ../Algorithm/pid.h
-25_hero_chassis\cloud_control.o: ../Core/Inc/main.h

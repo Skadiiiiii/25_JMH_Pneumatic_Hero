@@ -73,12 +73,17 @@ typedef enum
     RemotePole_DOWM = 2 //ÏÂ
 } RemotePole_e;
 
+#define remote_rc_up 1
+#define remote_rc_mid 3
+#define remote_rc_down 2
+
 typedef struct
 {
     RemotePole_e Left;
     RemotePole_e Right;
 
 } ControlSwitch_t; //Ò£¿ØÆ÷µÄs1¡¢s2²¦¸Ë
+
 
 typedef struct
 {
@@ -117,11 +122,9 @@ typedef struct
 
 extern uint8_t   dbus_buf[DBUS_BUFLEN];
 extern DR16_Export_Data_t DR16_Export_Data;
-//extern rc_info_t rc;
 extern DR16_t DR16;
 		
 void RemoteControl_Output(void);
-//void uart_receive_handler(UART_HandleTypeDef *huart);
 void dbus_uart_init(void);
 void Check_DR16(void);
 void uart_receive_handler(UART_HandleTypeDef *huart);

@@ -36,9 +36,6 @@
 25_hero_chassis\dr16.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 25_hero_chassis\dr16.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 25_hero_chassis\dr16.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-25_hero_chassis\dr16.o: ../Core/Inc/main.h
 25_hero_chassis\dr16.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 25_hero_chassis\dr16.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
-25_hero_chassis\dr16.o: ../Core/Inc/main.h
 25_hero_chassis\dr16.o: ../Core/Inc/can.h
-25_hero_chassis\dr16.o: ../Core/Inc/main.h

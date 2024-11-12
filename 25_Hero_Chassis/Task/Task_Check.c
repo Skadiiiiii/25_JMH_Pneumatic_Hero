@@ -2,6 +2,8 @@
 #include "M6020_motor.h"
 #include "M3508_motor.h"
 #include "chassis_control.h"
+#include "SupCap.h"
+#include "Power_Meter.h"
 #include "dr16.h"
 
 /**
@@ -26,6 +28,8 @@ void DEV_Check(void const *argument)
 			DR16_Export_Data.Alldead = 0;
 		}
 		
+		Check_SupCap();
+		Check_Power_Meter();
 		Check_Chassis_6020();
 		Check_Chassis_3508();
 		

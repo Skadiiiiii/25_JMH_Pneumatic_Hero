@@ -10,20 +10,21 @@
 #define WorkMode_Shoot 32
 #define WorkMode_Disable 11
 
-#define RF_205_6020 0 //左前
-#define LF_206_6020 1 //右前
-#define RB_207_6020 2 //右后
+#define RF_206_6020 1 //右前
+#define LF_207_6020 2 //左前
 #define LB_208_6020 3 //左后
+#define RB_205_6020 0 //右后
 
-#define RF_201_3508 0 //右前
-#define LF_202_3508 1 //左前
-#define RB_203_3508 2 //右后
+#define RF_202_3508 1 //右前
+#define LF_203_3508 2 //左前
 #define LB_204_3508 3 //左后
+#define RB_201_3508 0 //右后
 
-#define LF_206_6020_Init_Angle -3
-#define RF_205_6020_Init_Angle 2
-#define RB_207_6020_Init_Angle 3
-#define LB_208_6020_Init_Angle 61
+#define RF_206_6020_Init_Angle 167 // 3791/22.7527
+#define RB_205_6020_Init_Angle 75 // 1720/22.7527
+#define LB_208_6020_Init_Angle 163  // 3700/22.7527
+#define LF_207_6020_Init_Angle 135 // 3081/22.7527
+
 
 #define RUD_OPSI       1
 #define RUD_NOT_OPSI   0
@@ -45,7 +46,14 @@ typedef struct
     int32_t Turns_flag;
 }RUD_Param_t;
 
-float abs(float num);
+typedef enum
+{
+	RemoteControl	=	1,	//遥控器模式
+	KeyMouseControl =	2,//键鼠模式
+	Stop_car = 3  			//关闭机器
+}RemoteMode_e;
+
+
 void Chassis_Init(void);
 void Robot_Control_Disable(void);
 void Robot_Control_Fun(void);

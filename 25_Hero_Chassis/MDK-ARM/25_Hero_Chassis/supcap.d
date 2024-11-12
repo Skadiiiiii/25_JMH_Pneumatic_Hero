@@ -1,8 +1,5 @@
 25_hero_chassis\supcap.o: ..\Devices\SupCap.c
 25_hero_chassis\supcap.o: ..\Devices\SupCap.h
-25_hero_chassis\supcap.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
-25_hero_chassis\supcap.o: ../BSP/bsp_can.h
-25_hero_chassis\supcap.o: ../Core/Inc/can.h
 25_hero_chassis\supcap.o: ../Core/Inc/main.h
 25_hero_chassis\supcap.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 25_hero_chassis\supcap.o: ../Core/Inc/stm32f4xx_hal_conf.h
@@ -11,6 +8,7 @@
 25_hero_chassis\supcap.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 25_hero_chassis\supcap.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h
 25_hero_chassis\supcap.o: ../Drivers/CMSIS/Include/core_cm4.h
+25_hero_chassis\supcap.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
 25_hero_chassis\supcap.o: ../Drivers/CMSIS/Include/cmsis_version.h
 25_hero_chassis\supcap.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 25_hero_chassis\supcap.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -35,6 +33,9 @@
 25_hero_chassis\supcap.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 25_hero_chassis\supcap.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 25_hero_chassis\supcap.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+25_hero_chassis\supcap.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
+25_hero_chassis\supcap.o: ../BSP/bsp_can.h
+25_hero_chassis\supcap.o: ../Core/Inc/can.h
 25_hero_chassis\supcap.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\supcap.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 25_hero_chassis\supcap.o: ../Core/Inc/FreeRTOSConfig.h
@@ -50,6 +51,11 @@
 25_hero_chassis\supcap.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 25_hero_chassis\supcap.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 25_hero_chassis\supcap.o: C:\keil5\ARM\ARMCC\Bin\..\include\string.h
-25_hero_chassis\supcap.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
-25_hero_chassis\supcap.o: ..\Devices\Power_Meter.h
-25_hero_chassis\supcap.o: ../Core/Inc/main.h
+25_hero_chassis\supcap.o: ../Algorithm/AddMath.h
+25_hero_chassis\supcap.o: C:\keil5\ARM\ARMCC\Bin\..\include\math.h
+25_hero_chassis\supcap.o: ..\Devices\dr16.h
+25_hero_chassis\supcap.o: ../Core/Inc/usart.h
+25_hero_chassis\supcap.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
+25_hero_chassis\supcap.o: ..\Devices\RM_JudgeSystem.h
+25_hero_chassis\supcap.o: ../Control/chassis_control.h
+25_hero_chassis\supcap.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

@@ -16,7 +16,6 @@
   *
   ******************************************************************************
   */
-#define LIMIT_MIN_MAX(x,min,max) (x) = (((x)<=(min))?(min):(((x)>=(max))?(max):(x)))
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -58,6 +57,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define RM_Referee_Pin GPIO_PIN_9
+#define RM_Referee_GPIO_Port GPIOD
+#define RM_RefereeD8_Pin GPIO_PIN_8
+#define RM_RefereeD8_GPIO_Port GPIOD
 
 /* USER CODE BEGIN Private defines */
 

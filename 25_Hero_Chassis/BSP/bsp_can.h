@@ -44,6 +44,7 @@ extern osMessageQId CAN1_ReceiveHandle;
 extern osMessageQId CAN2_ReceiveHandle;
 
 void bsp_can_init(void);
+void CANx_Send_Data(CAN_HandleTypeDef *CANx, uint16_t id, uint8_t *tx_data);
 void CAN_RxMessage_Export_Data(CAN_HandleTypeDef *hcanx, osMessageQId CANx_Handle, uint8_t Can_type);
 
 

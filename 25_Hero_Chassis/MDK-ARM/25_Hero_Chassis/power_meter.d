@@ -33,9 +33,8 @@
 25_hero_chassis\power_meter.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 25_hero_chassis\power_meter.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 25_hero_chassis\power_meter.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-25_hero_chassis\power_meter.o: ../BSP/bsp_can.h
 25_hero_chassis\power_meter.o: ../Core/Inc/can.h
-25_hero_chassis\power_meter.o: ../Core/Inc/main.h
+25_hero_chassis\power_meter.o: ../BSP/bsp_can.h
 25_hero_chassis\power_meter.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\power_meter.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 25_hero_chassis\power_meter.o: ../Core/Inc/FreeRTOSConfig.h

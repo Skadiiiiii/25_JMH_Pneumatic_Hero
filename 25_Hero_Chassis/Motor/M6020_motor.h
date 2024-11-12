@@ -14,7 +14,6 @@ typedef struct
     float    rotor_angle;
 		float    target_rotor_angle;
 	
-		float    real_rotor_angle;
     int16_t  rotor_speed;
 		int16_t  speed_rpm;
     int16_t  torque_current;

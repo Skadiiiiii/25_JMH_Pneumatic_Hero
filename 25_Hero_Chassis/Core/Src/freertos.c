@@ -27,6 +27,11 @@
 /* USER CODE BEGIN Includes */
 #include "bsp_can.h"
 #include "dr16.h"
+#include "pid.h"
+#include "SupCap.h"
+#include "bsp_usart.h"
+#include "RM_JudgeSystem.h"
+#include "chassis_control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,7 +64,7 @@ osMessageQId CAN2_ReceiveHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+void JuageUsart_Init(void);
 /* USER CODE END FunctionPrototypes */
 
 void All_Init_Run(void const * argument);
@@ -169,7 +174,11 @@ void All_Init_Run(void const * argument)
 		taskENTER_CRITICAL();  //进入临界区
 		
 		bsp_can_init(); 		//can初始化     
-		dbus_uart_init();   //dbus初始化     
+		dbus_uart_init();   //dbus初始化 
+		JuageUsart_Init();  //裁判系统串口初始化
+		motor_pid_init();   //电机pid参数初始赋值
+		Chassis_Init();     //电机初始角度初始化
+		SupCap.FUN.Init();  //超电初始化
 		
 		taskEXIT_CRITICAL();   //退出临界区
 		vTaskDelete(NULL);  
@@ -179,5 +188,11 @@ void All_Init_Run(void const * argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-
+void JuageUsart_Init(void)
+{
+	__HAL_UART_CLEAR_IDLEFLAG(&huart3);
+	__HAL_UART_ENABLE(&huart3);
+	__HAL_UART_ENABLE_IT(&huart3,UART_IT_IDLE);
+	USART_Receive_DMA_NO_IT(&huart3,JudgeSystem_rxBuff,JUDGESYSTEM_PACKSIZE);
+}
 /* USER CODE END Application */

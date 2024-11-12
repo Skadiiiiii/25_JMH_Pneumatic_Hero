@@ -8,14 +8,17 @@
 #include <math.h>
 #include "cloud_control.h"
 #include "arm_math.h"
+#include "SupCap.h"
+#include "power_limit_control.h"
 
 int16_t speed_buff[4];
 RUD_Param_t RUD_Param[4]; /*<! 转向轮相关参数 */
+RemoteMode_e s_RemoteMode = Stop_car;
 
 /**
   * @brief  取变量的绝对值
   */
-float abs(float num)
+static float abs(float num)
 {
 		int temp;
 		if(num<0) temp=-num;
@@ -28,9 +31,9 @@ float abs(float num)
   */
 void Chassis_Init(void)
 {
-	M6020s_chassis[LF_206_6020].Init_angle = LF_206_6020_Init_Angle + 45;
-	M6020s_chassis[RF_205_6020].Init_angle = RF_205_6020_Init_Angle - 45;
-	M6020s_chassis[RB_207_6020].Init_angle = RB_207_6020_Init_Angle + 45;
+	M6020s_chassis[LF_207_6020].Init_angle = LF_207_6020_Init_Angle + 45;
+	M6020s_chassis[RF_206_6020].Init_angle = RF_206_6020_Init_Angle - 45;
+	M6020s_chassis[RB_205_6020].Init_angle = RB_205_6020_Init_Angle + 45;
 	M6020s_chassis[LB_208_6020].Init_angle = LB_208_6020_Init_Angle - 45;
 }
 
@@ -186,18 +189,18 @@ static void RudAngle_Calc(int16_t Vx, int16_t Vy, int16_t Vw)
             last_vw = (spin_flag == true ? 50 : 0);
 
             //--- 使用上一次的目标速度来保存上一次的目标角度
-            RUD_Param[LF_206_6020].Target_angle = atan2(last_vx - last_vw*(Radius*arm_sin_f32(theta)),last_vy - last_vw*Radius*arm_cos_f32(theta))*(180/PI);
-						RUD_Param[RF_205_6020].Target_angle = atan2(last_vx - last_vw*(Radius*arm_sin_f32(theta)),last_vy + last_vw*Radius*arm_cos_f32(theta))*(180/PI);
-            RUD_Param[RB_207_6020].Target_angle = atan2(last_vx + last_vw*(Radius*arm_sin_f32(theta)),last_vy + last_vw*Radius*arm_cos_f32(theta))*(180/PI);
+            RUD_Param[LF_207_6020].Target_angle = atan2(last_vx - last_vw*(Radius*arm_sin_f32(theta)),last_vy - last_vw*Radius*arm_cos_f32(theta))*(180/PI);
+						RUD_Param[RF_206_6020].Target_angle = atan2(last_vx - last_vw*(Radius*arm_sin_f32(theta)),last_vy + last_vw*Radius*arm_cos_f32(theta))*(180/PI);
+            RUD_Param[RB_205_6020].Target_angle = atan2(last_vx + last_vw*(Radius*arm_sin_f32(theta)),last_vy + last_vw*Radius*arm_cos_f32(theta))*(180/PI);
 						RUD_Param[LB_208_6020].Target_angle = atan2(last_vx + last_vw*(Radius*arm_sin_f32(theta)),last_vy - last_vw*Radius*arm_cos_f32(theta))*(180/PI);
         }
         else
         {
             spin_flag = false;
             //--- 45度归中
-            RUD_Param[LF_206_6020].Init_angle = LF_206_6020_Init_Angle + 45;
-						RUD_Param[RF_205_6020].Init_angle = RF_205_6020_Init_Angle - 45;
-            RUD_Param[RB_207_6020].Init_angle = RB_207_6020_Init_Angle + 45;
+            RUD_Param[LF_207_6020].Init_angle = LF_207_6020_Init_Angle + 45;
+						RUD_Param[RF_206_6020].Init_angle = RF_206_6020_Init_Angle - 45;
+            RUD_Param[RB_205_6020].Init_angle = RB_205_6020_Init_Angle + 45;
 						RUD_Param[LB_208_6020].Init_angle = LB_208_6020_Init_Angle - 45;
 
 						stop_pid_flag = 1;
@@ -220,15 +223,15 @@ static void RudAngle_Calc(int16_t Vx, int16_t Vy, int16_t Vw)
         Move_flag = true;
 
         //--- 解除45度归中
-				RUD_Param[LF_206_6020].Init_angle = LF_206_6020_Init_Angle;
-        RUD_Param[RF_205_6020].Init_angle = RF_205_6020_Init_Angle;
-        RUD_Param[RB_207_6020].Init_angle = RB_207_6020_Init_Angle;
+				RUD_Param[LF_207_6020].Init_angle = LF_207_6020_Init_Angle;
+        RUD_Param[RF_206_6020].Init_angle = RF_206_6020_Init_Angle;
+        RUD_Param[RB_205_6020].Init_angle = RB_205_6020_Init_Angle;
         RUD_Param[LB_208_6020].Init_angle = LB_208_6020_Init_Angle;    
 
         //--- 有目标速度的时候才进行舵轮解算的计算
-        RUD_Param[LF_206_6020].Target_angle = atan2(Vx - Vw*(Radius*arm_sin_f32(theta)),Vy - Vw*Radius*arm_cos_f32(theta))*(180/PI);
-				RUD_Param[RF_205_6020].Target_angle = atan2(Vx - Vw*(Radius*arm_sin_f32(theta)),Vy + Vw*Radius*arm_cos_f32(theta))*(180/PI);
-        RUD_Param[RB_207_6020].Target_angle = atan2(Vx + Vw*(Radius*arm_sin_f32(theta)),Vy + Vw*Radius*arm_cos_f32(theta))*(180/PI);
+        RUD_Param[LF_207_6020].Target_angle = atan2(Vx - Vw*(Radius*arm_sin_f32(theta)),Vy - Vw*Radius*arm_cos_f32(theta))*(180/PI);
+				RUD_Param[RF_206_6020].Target_angle = atan2(Vx - Vw*(Radius*arm_sin_f32(theta)),Vy + Vw*Radius*arm_cos_f32(theta))*(180/PI);
+        RUD_Param[RB_205_6020].Target_angle = atan2(Vx + Vw*(Radius*arm_sin_f32(theta)),Vy + Vw*Radius*arm_cos_f32(theta))*(180/PI);
 				RUD_Param[LB_208_6020].Target_angle = atan2(Vx + Vw*(Radius*arm_sin_f32(theta)),Vy - Vw*Radius*arm_cos_f32(theta))*(180/PI);
 
         if(abs(Vw)>100)
@@ -277,9 +280,9 @@ static void Wheel_calc(int16_t Vx, int16_t Vy, int16_t Vw, int16_t *cal_speed)
     }
 
     /* 驱动轮 速度解算 ---------------------------------------------------------------------------------*/
-    cal_speed[RF_201_3508] = -sqrt(pow(Vx - Vw*arm_sin_f32(theta),2) + pow(Vy + Vw*arm_cos_f32(theta),2));
-    cal_speed[LF_202_3508] =  sqrt(pow(Vx - Vw*arm_sin_f32(theta),2) + pow(Vy - Vw*arm_cos_f32(theta),2));
-    cal_speed[RB_203_3508] = -sqrt(pow(Vx + Vw*arm_sin_f32(theta),2) + pow(Vy - Vw*arm_cos_f32(theta),2));
+    cal_speed[RF_202_3508] = -sqrt(pow(Vx - Vw*arm_sin_f32(theta),2) + pow(Vy + Vw*arm_cos_f32(theta),2));
+    cal_speed[LF_203_3508] =  sqrt(pow(Vx - Vw*arm_sin_f32(theta),2) + pow(Vy - Vw*arm_cos_f32(theta),2));
+    cal_speed[RB_201_3508] = -sqrt(pow(Vx + Vw*arm_sin_f32(theta),2) + pow(Vy - Vw*arm_cos_f32(theta),2));
 		cal_speed[LB_204_3508] =  sqrt(pow(Vx + Vw*arm_sin_f32(theta),2) + pow(Vy + Vw*arm_cos_f32(theta),2));
 
 		cal_speed[0] *= Param;
@@ -308,23 +311,23 @@ static void Wheel_calc(int16_t Vx, int16_t Vy, int16_t Vw, int16_t *cal_speed)
 }
 
 /**
- * @brief 获取开机后的6020中心角度，并设为基准
+ * @brief  获取开机后的6020中心角度，并设为基准
  */
 float M6020s_Yaw_Angle_Centre;
 static void read_start_yaw(void)
 {
-		M6020s_Yaw_Angle_Centre = M6020s_Yaw.real_rotor_angle;
+		M6020s_Yaw_Angle_Centre = M6020s_Yaw.rotor_angle;
 }
 
 /**
- * @brief 全向公式
+ * @brief  全向公式
  */
 static float* Speed_Decompose(float Vx, float Vy)
 {
 	float RadRaw = 0.0f;
 	static float Chassis[2];
 	
-	float angle = (M6020s_Yaw.real_rotor_angle - M6020s_Yaw_Angle_Centre) / M6020_mAngleRatio; //机械角度偏差
+	float angle = (M6020s_Yaw.rotor_angle - M6020s_Yaw_Angle_Centre) / M6020_mAngleRatio; //机械角度偏差
 	RadRaw = angle * DEG_TO_RAD;   
 	
   Chassis[0] = Vx * arm_cos_f32(RadRaw) - Vy * arm_sin_f32(RadRaw);
@@ -342,29 +345,31 @@ static void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega)
 	
 	for (uint8_t i = 0; i < 4; i++)
 	{
-			M3508s_chassis[i].set_current = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
+			M3508s_chassis[i].set_voltage = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
 		
 			if(stop_pid_flag == 1)
 			{
-				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 			}
 			else
 			{
-				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 			}
 	}
+	
+	chassis_power_control(&Chassis_PowerLimit);
 
 	set_M3508_200_voltage(&hcan2,
-							M3508s_chassis[0].set_current, 
-							M3508s_chassis[1].set_current, 
-							M3508s_chassis[2].set_current,
-							M3508s_chassis[3].set_current);	
+							M3508s_chassis[0].set_voltage, 
+							M3508s_chassis[1].set_voltage, 
+							M3508s_chassis[2].set_voltage,
+							M3508s_chassis[3].set_voltage);	
 	
 	set_M6020_1ff_voltage(&hcan2,
-							M6020s_chassis[0].set_current, 
-							M6020s_chassis[1].set_current, 
-							M6020s_chassis[2].set_current, 
-							M6020s_chassis[3].set_current);	
+							M6020s_chassis[0].set_voltage, 
+							M6020s_chassis[1].set_voltage, 
+							M6020s_chassis[2].set_voltage, 
+							M6020s_chassis[3].set_voltage);	
 
 }
 
@@ -374,58 +379,36 @@ static void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega)
 static void Ship_ChassisWorkMode_follow(float Vx, float Vy)
 {
 	int16_t Chassis_target_rotor_speed;
-	
-//	if(M6020s_Yaw_Angle_Centre - M6020s_Yaw.real_rotor_angle > 1024)
-//	if(rc.roll > 0)
-//	{
-//		M6020s_Yaw_Angle_Centre -= 2048;
-//	}
-//	else if(rc.roll < 0)
-//	{
-//		M6020s_Yaw_Angle_Centre += 2048;
-//	}
-////	else if(M6020s_Yaw.real_rotor_angle - M6020s_Yaw_Angle_Centre > 1024)
-////	{
-////		M6020s_Yaw_Angle_Centre += 2048;
-////	}
-//	if(M6020s_Yaw_Angle_Centre > 8191)
-//	{
-//		M6020s_Yaw_Angle_Centre -= 8191;
-//	}
-//	else if(M6020s_Yaw_Angle_Centre < 0)
-//	{
-//		M6020s_Yaw_Angle_Centre += 8191;
-//	}
 
-	Chassis_target_rotor_speed = pid_calc_cloud(&motor_pid_chassis_pos,M6020s_Yaw_Angle_Centre,M6020s_Yaw.real_rotor_angle);
+	Chassis_target_rotor_speed = pid_calc_cloud(&motor_pid_chassis_pos,M6020s_Yaw_Angle_Centre,M6020s_Yaw.rotor_angle);
 	
 	Wheel_calc(Vx,Vy,-Chassis_target_rotor_speed,speed_buff);
 								
 	for (uint8_t i = 0; i < 4; i++)
 	{
-			M3508s_chassis[i].set_current = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
+			M3508s_chassis[i].set_voltage = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
 		
-			if(stop_pid_flag == 1)
-			{
-				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
-			}
-			else
-			{
-				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
-			}
+//			if(stop_pid_flag == 1)
+//			{
+//				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+//			}
+//			else
+//			{
+				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+//			}
 	}
 
 	set_M3508_200_voltage(&hcan2,
-							M3508s_chassis[0].set_current, 
-							M3508s_chassis[1].set_current, 
-							M3508s_chassis[2].set_current,
-							M3508s_chassis[3].set_current);	
+							M3508s_chassis[0].set_voltage,
+							M3508s_chassis[1].set_voltage,
+							M3508s_chassis[2].set_voltage,
+							M3508s_chassis[3].set_voltage);	
 	
 	set_M6020_1ff_voltage(&hcan2,
-							M6020s_chassis[0].set_current, 
-							M6020s_chassis[1].set_current, 
-							M6020s_chassis[2].set_current, 
-							M6020s_chassis[3].set_current);		
+							M6020s_chassis[0].set_voltage, 
+							M6020s_chassis[1].set_voltage, 
+							M6020s_chassis[2].set_voltage, 
+							M6020s_chassis[3].set_voltage);		
 }
 
 /**
@@ -440,22 +423,22 @@ static void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy)
 								
 	for (uint8_t i = 0; i < 4; i++)
 	{
-			M3508s_chassis[i].set_current = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
+			M3508s_chassis[i].set_voltage = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
 		
-			M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+			M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 	}
 
 	set_M3508_200_voltage(&hcan2,
-							M3508s_chassis[0].set_current, 
-							M3508s_chassis[1].set_current, 
-							M3508s_chassis[2].set_current,
-							M3508s_chassis[3].set_current);	
+							M3508s_chassis[0].set_voltage, 
+							M3508s_chassis[1].set_voltage, 
+							M3508s_chassis[2].set_voltage,
+							M3508s_chassis[3].set_voltage);	
 	
 	set_M6020_1ff_voltage(&hcan2,
-							M6020s_chassis[0].set_current, 
-							M6020s_chassis[1].set_current, 
-							M6020s_chassis[2].set_current, 
-							M6020s_chassis[3].set_current);	
+							M6020s_chassis[0].set_voltage, 
+							M6020s_chassis[1].set_voltage, 
+							M6020s_chassis[2].set_voltage, 
+							M6020s_chassis[3].set_voltage);	
 }
 
 /**
@@ -463,9 +446,9 @@ static void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy)
   */
 static void Ship_ChassisWorkMode_shoot(float speed)
 {
-	M2006s.set_current = pid_calc(&motor_pid_shoot,speed,M2006s.rotor_speed);
+	M2006s.set_voltage = pid_calc(&motor_pid_shoot,speed,M2006s.rotor_speed);
 	
-	set_M2006_200_voltage(&hcan1,M2006s.set_current,0,0,0);
+	set_M2006_200_voltage(&hcan1,M2006s.set_voltage,0,0,0);
 }
 
 /**
@@ -475,12 +458,38 @@ static void Robot_control_chassis_disable()
 {
 	for(uint8_t i = 0;i < 4;i++)
 	{
-		M3508s_chassis[i].set_current = 0;
-		M6020s_chassis[i].set_current = 0;
+		M3508s_chassis[i].set_voltage = 0;
+		M6020s_chassis[i].set_voltage = 0;
 	}
 	set_M3508_200_voltage(&hcan2,0,0,0,0);
 	set_M6020_1ff_voltage(&hcan2,0,0,0,0);
 	set_M2006_200_voltage(&hcan1,0,0,0,0);
+}
+
+/**
+	* @brief  设置遥控模式
+  */
+void SetRemoteMode(void)
+{
+	
+	if(DR16.rc.sw1 == remote_rc_mid && DR16.rc.sw2 == remote_rc_mid)
+	{
+		SetSuperCap_Mode(Cap_Enable); 
+		SupCap.FUN.SupCap_SupplySwitch(Power_Supply);
+	}
+	else
+	{	
+		SetSuperCap_Mode(Cap_Close);
+		SupCap.FUN.SupCap_SupplySwitch(Power_NotSupply);
+	}
+	if(DR16.rc.sw1 == remote_rc_up && DR16.rc.sw2 == remote_rc_up)
+	{
+		s_RemoteMode = KeyMouseControl;//键鼠模式
+	}
+	else
+	{
+		s_RemoteMode = RemoteControl;//遥控模式
+	}
 }
 
 /**
@@ -491,36 +500,43 @@ static void Robot_control ()
 	if(DR16_Export_Data.ControlSwitch->Left == 3  && DR16_Export_Data.ControlSwitch->Right == 2)//左中右下（底盘）
 	{
 		DR16_Export_Data.ChassisWorkMode = WorkMode_Chassis;
-		Ship_ChassisWorkMode(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-												 10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
-												-7.0f*DR16_Export_Data.Robot_TargetValue.Omega_Value);
+		Ship_ChassisWorkMode(14.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
+												 14.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
+												 -10.0f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
 	}
-	else if(DR16_Export_Data.ControlSwitch->Left == 2  && DR16_Export_Data.ControlSwitch->Right == 3)//左下右中（云台）
+	else if(DR16_Export_Data.ControlSwitch->Left == 2 && DR16_Export_Data.ControlSwitch->Right == 3)//左下右中（云台）
 	{
 		DR16_Export_Data.ChassisWorkMode = WorkMode_Cloud;
 		Robot_control_chassis_disable(); 
 	}
-	else if(DR16_Export_Data.ControlSwitch->Left == 3  && DR16_Export_Data.ControlSwitch->Right == 3)//双中（跟随）
+//	else if(DR16_Export_Data.ControlSwitch->Left == 3 && DR16_Export_Data.ControlSwitch->Right == 3)//双中（跟随）
+//	{
+//		DR16_Export_Data.ChassisWorkMode = WorkMode_Follow;
+//		
+//		Ship_ChassisWorkMode_follow(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
+//																10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
+//	}
+	else if(DR16_Export_Data.ControlSwitch->Left == 3 && DR16_Export_Data.ControlSwitch->Right == 3)//双中（跟随）
 	{
-			DR16_Export_Data.ChassisWorkMode = WorkMode_Follow;
-			
-			Ship_ChassisWorkMode_follow(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-																	10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
+		DR16_Export_Data.ChassisWorkMode = WorkMode_Chassis;
+		Ship_ChassisWorkMode(14.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
+												 14.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
+												 -10.0f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
 	}
 	else if(DR16_Export_Data.ControlSwitch->Left == 1 && DR16_Export_Data.ControlSwitch->Right == 3)//左上右中（发射）
 	{
-			DR16_Export_Data.ChassisWorkMode = WorkMode_Shoot;
-		
-			Ship_ChassisWorkMode_shoot(15.0f * DR16.rc.roll);
-			Ship_ChassisWorkMode_follow(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-																10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
+		DR16_Export_Data.ChassisWorkMode = WorkMode_Shoot;
+	
+		Ship_ChassisWorkMode_shoot(15.0f * DR16.rc.roll);
+		Ship_ChassisWorkMode_follow(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
+															10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
 	}
 	else if(DR16_Export_Data.ControlSwitch->Left == 3 && DR16_Export_Data.ControlSwitch->Right == 1)//左中右上（小陀螺）
 	{
-			DR16_Export_Data.ChassisWorkMode = WorkMode_Tuoluo;
-		
-			Ship_ChassisWorkMode_Tuoluo(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-																10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
+		DR16_Export_Data.ChassisWorkMode = WorkMode_Tuoluo;
+	
+		Ship_ChassisWorkMode_Tuoluo(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
+															10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
 	}
 	else if(DR16_Export_Data.ControlSwitch->Left == 2 && DR16_Export_Data.ControlSwitch->Right == 2)//双下（失能）
 	{
@@ -539,16 +555,19 @@ static void Robot_control ()
 }
 
 /**
-  * @brief    遥控器控制机器人
+  * @brief	遥控器控制机器人
 **/
 void Robot_Control_Fun()
 {
+	SupCap.FUN.SendMsg();
+	SetRemoteMode();
+	SupCap.FUN.Ctrl();
 	RemoteControl_Output();
 	Robot_control();
 }
 
 /**
-  * @brief    遥控器控制机器人
+  * @brief  遥控器控制机器人
 **/
 void Robot_Control_Disable()
 {

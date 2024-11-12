@@ -65,6 +65,23 @@ void bsp_can_init(void)
 }
 
 /**
+  * @brief	CAN发送的数据
+  */
+void CANx_Send_Data(CAN_HandleTypeDef *CANx, uint16_t id, uint8_t *tx_data)
+{	
+	CAN_TxHeaderTypeDef tx_header;//用来存储发送的CAN帧的头部信息，包括帧ID、帧类型、帧长度等
+	
+	tx_header.StdId = id;
+  tx_header.IDE   = CAN_ID_STD;
+  tx_header.RTR   = CAN_RTR_DATA;
+  tx_header.DLC   = 8;//定义发送格式
+	
+  HAL_CAN_AddTxMessage(CANx, &tx_header, tx_data,(uint32_t*)CAN_TX_MAILBOX0); //函数会根据指定的邮箱号将CAN帧发送到对应的邮箱
+												//CAN, 信息格式，      信息内容，  指向邮箱号的指针
+}
+
+
+/**
   * @brief	处理CAN接收到的数据并发送到队列
   */
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)//CAN总线接收回调函数

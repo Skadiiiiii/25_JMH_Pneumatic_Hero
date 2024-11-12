@@ -17,25 +17,19 @@ void M6020_Yaw_getInfo(Can_Export_Data_t RxMessage)
     M6020s_Yaw.torque_current = (int16_t)(RxMessage.CAN_RxMessage[4] << 8 | RxMessage.CAN_RxMessage[5]);
     M6020s_Yaw.temp = RxMessage.CAN_RxMessage[6];
 
-    if (M6020s_Yaw.rotor_angle - M6020s_Yaw.last_rotor_angle < -4096)
-    {
-        M6020s_Yaw.turn_count++;
-    }
+//    if (M6020s_Yaw.rotor_angle - M6020s_Yaw.last_rotor_angle < -4096)
+//    {
+//        M6020s_Yaw.turn_count++;
+//    }
 
-    if (M6020s_Yaw.last_rotor_angle - M6020s_Yaw.rotor_angle < -4096)
-    {
-        M6020s_Yaw.turn_count--;
-    }
+//    if (M6020s_Yaw.last_rotor_angle - M6020s_Yaw.rotor_angle < -4096)
+//    {
+//        M6020s_Yaw.turn_count--;
+//    }
 		
-    M6020s_Yaw.total_angle = M6020s_Yaw.rotor_angle + (8192 * M6020s_Yaw.turn_count);
-		
-		M6020s_Yaw.real_rotor_angle = M6020s_Yaw.total_angle * 26.0f / 47.0f;
-		
-		if(M6020s_Yaw.real_rotor_angle < 0)
-		{
-			M6020s_Yaw.real_rotor_angle += 8191;
-		}
-		M6020s_Yaw.real_rotor_angle = (int)M6020s_Yaw.real_rotor_angle % 8191;
+//    M6020s_Yaw.total_angle = M6020s_Yaw.rotor_angle + (8192 * M6020s_Yaw.turn_count);
+//  	M6020s_Yaw.target_total_rotor_angle = M6020s_Yaw.target_rotor_angle + (8192 * M6020s_Yaw.turn_count);
+
 
     //帧率统计，数据更新标志位
     M6020s_Yaw.InfoUpdateFrame++;

@@ -55,3 +55,5 @@
 25_hero_chassis\task_canmsg.o: ../Motor/M6020_Motor.h
 25_hero_chassis\task_canmsg.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 25_hero_chassis\task_canmsg.o: ../Motor/M2006_Motor.h
+25_hero_chassis\task_canmsg.o: ../Devices/Power_Meter.h
+25_hero_chassis\task_canmsg.o: ../Devices/SupCap.h

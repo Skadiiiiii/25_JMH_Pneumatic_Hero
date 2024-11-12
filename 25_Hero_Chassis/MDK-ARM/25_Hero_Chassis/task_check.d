@@ -56,9 +56,8 @@
 25_hero_chassis\task_check.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 25_hero_chassis\task_check.o: ../Motor/M3508_motor.h
 25_hero_chassis\task_check.o: ../Control/chassis_control.h
-25_hero_chassis\task_check.o: ../Core/Inc/main.h
 25_hero_chassis\task_check.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+25_hero_chassis\task_check.o: ../Devices/SupCap.h
+25_hero_chassis\task_check.o: ../Devices/Power_Meter.h
 25_hero_chassis\task_check.o: ../Devices/dr16.h
 25_hero_chassis\task_check.o: ../Core/Inc/usart.h
-25_hero_chassis\task_check.o: ../Core/Inc/main.h
-25_hero_chassis\task_check.o: ../Core/Inc/main.h

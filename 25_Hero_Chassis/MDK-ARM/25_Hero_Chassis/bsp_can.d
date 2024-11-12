@@ -50,7 +50,6 @@
 25_hero_chassis\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 25_hero_chassis\bsp_can.o: C:\keil5\ARM\ARMCC\Bin\..\include\string.h
 25_hero_chassis\bsp_can.o: ../Devices/DJI_IMU.h
-25_hero_chassis\bsp_can.o: ../Core/Inc/main.h
 25_hero_chassis\bsp_can.o: ../Motor/M6020_motor.h
 25_hero_chassis\bsp_can.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 25_hero_chassis\bsp_can.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h

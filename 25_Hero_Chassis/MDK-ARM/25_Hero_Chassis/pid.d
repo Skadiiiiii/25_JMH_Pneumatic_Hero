@@ -37,7 +37,6 @@
 25_hero_chassis\pid.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 25_hero_chassis\pid.o: ../BSP/bsp_can.h
 25_hero_chassis\pid.o: ../Core/Inc/can.h
-25_hero_chassis\pid.o: ../Core/Inc/main.h
 25_hero_chassis\pid.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\pid.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 25_hero_chassis\pid.o: ../Core/Inc/FreeRTOSConfig.h
@@ -56,4 +55,5 @@
 25_hero_chassis\pid.o: ../Motor/M6020_motor.h
 25_hero_chassis\pid.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 25_hero_chassis\pid.o: ../Control/cloud_control.h
-25_hero_chassis\pid.o: ../Core/Inc/main.h
+25_hero_chassis\pid.o: ..\Algorithm\AddMath.h
+25_hero_chassis\pid.o: C:\keil5\ARM\ARMCC\Bin\..\include\math.h

@@ -49,17 +49,13 @@
 25_hero_chassis\can_send_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 25_hero_chassis\can_send_task.o: ../BSP/bsp_can.h
 25_hero_chassis\can_send_task.o: ../Core/Inc/can.h
-25_hero_chassis\can_send_task.o: ../Core/Inc/main.h
 25_hero_chassis\can_send_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\can_send_task.o: C:\keil5\ARM\ARMCC\Bin\..\include\string.h
 25_hero_chassis\can_send_task.o: ../Devices/dr16.h
 25_hero_chassis\can_send_task.o: ../Core/Inc/usart.h
-25_hero_chassis\can_send_task.o: ../Core/Inc/main.h
-25_hero_chassis\can_send_task.o: ../Core/Inc/main.h
 25_hero_chassis\can_send_task.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 25_hero_chassis\can_send_task.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 25_hero_chassis\can_send_task.o: ../Motor/M6020_motor.h
 25_hero_chassis\can_send_task.o: ../Motor/M3508_motor.h
 25_hero_chassis\can_send_task.o: ../Control/chassis_control.h
-25_hero_chassis\can_send_task.o: ../Core/Inc/main.h
 25_hero_chassis\can_send_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

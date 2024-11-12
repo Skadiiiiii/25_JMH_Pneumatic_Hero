@@ -35,7 +35,6 @@
 25_hero_chassis\dji_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 25_hero_chassis\dji_imu.o: ../BSP/bsp_can.h
 25_hero_chassis\dji_imu.o: ../Core/Inc/can.h
-25_hero_chassis\dji_imu.o: ../Core/Inc/main.h
 25_hero_chassis\dji_imu.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 25_hero_chassis\dji_imu.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 25_hero_chassis\dji_imu.o: ../Core/Inc/FreeRTOSConfig.h
