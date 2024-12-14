@@ -7,7 +7,7 @@
 #define SCCM_RECEIVE_ID 0x600
 #define SCCM_SEND_ID 0x601
 
-#pragma anon_unions
+//#pragma anon_unions
 
 #define SupCap_ON 1
 #define SupCap_OFF 0

@@ -2,16 +2,10 @@
 #include "main.h"
 #include "usart.h"
 
-//小端模式（低字节在前，高字节在后）
-#define BYTE0(dwTemp) (*(char *)(&dwTemp))    //取低八位
-#define BYTE1(dwTemp) (*((char *)(&dwTemp)+1))//取高八位
-#define BYTE2(dwTemp) (*((char *)(&dwTemp)+2))//取高十六位
-#define BYTE3(dwTemp) (*((char *)(&dwTemp)+3))//取高二十四位
-
 /**
   * @brief	匿名上位机协议
   */
-void sent_data1(float A,float B,int16_t C)
+void sent_data_ano(UART_HandleTypeDef* huart,float A,float B,int16_t C)
 {	
 		uint8_t BUFF[100];
 		uint8_t _cnt = 0;
@@ -47,5 +41,5 @@ void sent_data1(float A,float B,int16_t C)
 		
 		BUFF[_cnt++] = sumcheck;//和校验
 		BUFF[_cnt++] = addcheck;//附加校验
-		HAL_UART_Transmit(&huart7,BUFF,_cnt,0xffff);//串口发送
+		HAL_UART_Transmit(huart,BUFF,_cnt,0xffff);//串口发送
 }

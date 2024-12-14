@@ -3,9 +3,9 @@
 
 #include "main.h"
 #include "bsp_can.h"
-#pragma anon_unions
+//#pragma anon_unions
 
-#define send_way 0
+//#define send_way 0
 
 //·¢ËÍID
 #define DJI_C_Angle_SENDID 0x195

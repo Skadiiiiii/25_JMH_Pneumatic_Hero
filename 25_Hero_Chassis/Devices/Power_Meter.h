@@ -5,7 +5,7 @@
 #include "can.h"
 #include "bsp_can.h"
 
-#pragma anon_unions
+//#pragma anon_unions
 
 
 typedef struct 

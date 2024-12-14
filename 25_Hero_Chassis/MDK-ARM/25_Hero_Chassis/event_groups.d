@@ -1,15 +1,18 @@
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
-25_hero_chassis\event_groups.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-25_hero_chassis\event_groups.o: C:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
-25_hero_chassis\event_groups.o: C:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
-25_hero_chassis\event_groups.o: ../Core/Inc/FreeRTOSConfig.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
-25_hero_chassis\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+25_hero_chassis/event_groups.o: \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\event_groups.c \
+  C:\keil5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
+  C:\keil5\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  C:\keil5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  ..\Core\Inc\FreeRTOSConfig.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\portable.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\portable\RVDS\ARM_CM4F\portmacro.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\mpu_wrappers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\timers.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\timers.h

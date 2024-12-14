@@ -32,6 +32,7 @@ void DEV_Check(void const *argument)
 		Check_Power_Meter();
 		Check_Chassis_6020();
 		Check_Chassis_3508();
+		Check_Dial_3508();
 		
 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
 	}

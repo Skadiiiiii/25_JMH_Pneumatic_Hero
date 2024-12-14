@@ -8,7 +8,7 @@
 
 #define JUDGESYSTEM_PACKSIZE (389u)
 
-#pragma anon_unions
+//#pragma anon_unions
 //²ÃÅĞÏµÍ³Ô¤±àÒë
 #define      JUDGE_20      20
 #define      JUDGE_21      21
@@ -1627,6 +1627,8 @@ void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
 uint16_t Get_CRC16_Check_Sum(uint8_t *pchMessage,uint32_t dwLength,uint16_t wCRC);
 uint32_t Verify_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength);
 void Append_CRC16_Check_Sum(uint8_t * pchMessage,uint32_t dwLength);
+
+void Judge_GetMessage(uint16_t Data_Length);
 /*CRC_END AND USART_Begin*/
 //¶ÔÓ¦Í¨ĞÅĞ­Òé¸ñÊ½   frame_header(5-byte)+cmd_id(2-byte)+data(n-byte)+frame_tail(2-byte,CRC16,Õû°üĞ£Ñé)
 #define       LEN_HEADER        5/*frame_header*/
@@ -1709,14 +1711,14 @@ ID: 0x0308					Byte: 34			The player side minimap receives the robot data 	·¢ËÍÆ
 #define       JudgeLength_key			 						 21
 /**************************************²ÃÅĞÏµÍ³½á¹¹Ìå*****************************************/
 /* ×Ô¶¨ÒåÖ¡Í· */
-typedef __packed struct
+typedef struct
 {
 	uint8_t  SOF;
 	uint16_t DataLength;
 	uint8_t  Seq;
 	uint8_t  CRC8;
 	
-}xFrameHeader;
+} __packed xFrameHeader;
 /* ID: 0x0003     Byte: 32     ±ÈÈü»úÆ÷ÈËÑªÁ¿Êı¾İ */
 typedef struct
 {

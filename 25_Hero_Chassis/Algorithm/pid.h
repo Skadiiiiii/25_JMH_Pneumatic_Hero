@@ -43,12 +43,14 @@ extern pid_struct_t motor_pid_chassis[4];
 extern pid_Cascade_t motor_pid_chassis_6020[4];
 extern pid_Cascade_t motor_pid_chassis_6020_stop[4];
 extern pid_struct_t motor_pid_chassis_pos;
-extern pid_struct_t motor_pid_shoot;
-extern pid_Cascade_t motor_pid_Cas_Chassis[4];
+							
 extern pid_Cascade_t motor_pid_Cas_Yaw;
 extern pid_Cascade_t motor_pid_Cas_Pitch;
 							
+extern pid_struct_t motor_pid_dial_speed;
+							
 float pid_calc(pid_struct_t *pid, float tar, float now);
+float pid_calc_incremental(pid_struct_t *pid, float tar, float now);
 float pid_calc_cloud(pid_struct_t *pid, float tar, float now);
 float pid_CascadeCalc(pid_Cascade_t *pid,float angleTar,float angleNow,float speedNow);							
 float pid_CascadeCalc_chassis(pid_Cascade_t *pid,float angleTar,float angleNow,float speedNow);

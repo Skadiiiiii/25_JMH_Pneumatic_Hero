@@ -4,9 +4,8 @@
 #include "bsp_can.h"
 #include "pid.h"
 
-#define 	DM_Send_ID 0x05
-//(0x05+ 0x100)
-#define  	DM_Receive_ID 0x08
+#define 	DM_Send_ID 0x215
+#define  	DM_Receive_ID 0x225
 #define   Radio_toAngle 0.0174444444444444f
 
 typedef struct
@@ -22,13 +21,14 @@ typedef struct
 	float last_position;
 	float speed;
 	float torque;
+	float target_rotor_angle;
 	float Kp;
 	float Kd;
 	float Temp_mos;
 	float Temp_rotor;
 }DM_J4310_t;
 
-extern DM_J4310_t DM4310s;
+extern DM_J4310_t DM4310s_yaw;
 
 #define P_MIN  -3.14		//位置最小值
 #define P_MAX	 3.14		//位置最大值

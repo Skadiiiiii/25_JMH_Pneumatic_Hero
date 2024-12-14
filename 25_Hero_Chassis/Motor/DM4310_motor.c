@@ -1,21 +1,21 @@
 #include "DM4310_motor.h"
 
-DM_J4310_t DM4310s;
+DM_J4310_t DM4310s_yaw;
 uint8_t Data_Enable[8]={0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC};		//电机使能命令
 uint8_t Data_Failure[8]={0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD};		//电机失能命令
 uint8_t Data_Erase_error[8]={0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFB};
 
 void motor_enable(void)
 {
-	CANx_Send_Data(&hcan2,DM_Send_ID,Data_Enable);
+	CANx_Send_Data(&hcan1,DM_Send_ID,Data_Enable);
 }
 void motor_disable(void)
 {
-	CANx_Send_Data(&hcan2,DM_Send_ID,Data_Failure);
+	CANx_Send_Data(&hcan1,DM_Send_ID,Data_Failure);
 }
 void motor_Erase_error(void)
 {
-	CANx_Send_Data(&hcan2,DM_Send_ID,Data_Erase_error);
+	CANx_Send_Data(&hcan1,DM_Send_ID,Data_Erase_error);
 }
 /**
  * @brief  采用浮点数据等比例转换成整数
@@ -53,7 +53,7 @@ static int float_to_uint(float x, float x_min, float x_max, int bits)
  * @param  _pos   位置给定
  * @param  _vel   速度给定
  */
-void MIT_CtrlMotor(CAN_HandleTypeDef* hcan,uint16_t id, float _pos, float _vel,float _KP, float _KD, float _torq)
+void MIT_CtrlMotor(CAN_HandleTypeDef *CANx,uint16_t id, float _pos, float _vel,float _KP, float _KD, float _torq)
 { 
 	uint16_t pos_tmp,vel_tmp,kp_tmp,kd_tmp,tor_tmp;
 	pos_tmp = float_to_uint(_pos, P_MIN, P_MAX, 16);
@@ -71,7 +71,7 @@ void MIT_CtrlMotor(CAN_HandleTypeDef* hcan,uint16_t id, float _pos, float _vel,f
 	data[5] = (kd_tmp >> 4);
 	data[6] = ((kd_tmp&0xF)<<4)|(tor_tmp>>8);
 	data[7] = tor_tmp;
-	CANx_Send_Data(&hcan2,id,data);
+	CANx_Send_Data(CANx,id,data);
  }
 
 /**
@@ -81,7 +81,7 @@ void MIT_CtrlMotor(CAN_HandleTypeDef* hcan,uint16_t id, float _pos, float _vel,f
  * @param  _pos   位置给定
  * @param  _vel   速度给定
  */
-void PosSpeed_CtrlMotor(CAN_HandleTypeDef* hcan, uint16_t id, float _pos, float _vel)
+void PosSpeed_CtrlMotor(CAN_HandleTypeDef *CANx, uint16_t id, float _pos, float _vel)
 {
     uint8_t *pbuf,*vbuf;
     pbuf=(uint8_t*)&_pos;
@@ -97,7 +97,7 @@ void PosSpeed_CtrlMotor(CAN_HandleTypeDef* hcan, uint16_t id, float _pos, float 
 		data[5] = *(vbuf + 1);
 		data[6] = *(vbuf + 2);
 		data[7] = *(vbuf + 3);
-		CANx_Send_Data(&hcan2,id,data);
+		CANx_Send_Data(CANx,id + 0x100,data);
 
 }
 
@@ -106,15 +106,15 @@ void PosSpeed_CtrlMotor(CAN_HandleTypeDef* hcan, uint16_t id, float _pos, float 
   */
 void DM_4310_getInfo(Can_Export_Data_t RxMessage)
 {
-	DM4310s.id         = (RxMessage.CAN_RxMessage[0])&0x0F;
-	DM4310s.state      = (RxMessage.CAN_RxMessage[0])>>4;
-	DM4310s.p_int      = (RxMessage.CAN_RxMessage[1]<<8)|RxMessage.CAN_RxMessage[2];
-	DM4310s.v_int      = (RxMessage.CAN_RxMessage[3]<<4)|(RxMessage.CAN_RxMessage[4]>>4);
-	DM4310s.t_int      = ((RxMessage.CAN_RxMessage[4]&0xF)<<8)|RxMessage.CAN_RxMessage[5];
-	DM4310s.position   = uint_to_float(DM4310s.p_int, P_MIN, P_MAX, 16); // (-12.5,12.5)
-	DM4310s.speed      = uint_to_float(DM4310s.v_int, V_MIN, V_MAX, 12); // (-45.0,45.0)
-	DM4310s.torque     = uint_to_float(DM4310s.t_int, T_MIN, T_MAX, 12);  // (-18.0,18.0)
-	DM4310s.Temp_mos   = (float)(RxMessage.CAN_RxMessage[6]);
-	DM4310s.Temp_rotor = (float)(RxMessage.CAN_RxMessage[7]);
+	DM4310s_yaw.id         = (RxMessage.CAN_RxMessage[0])&0x0F;
+	DM4310s_yaw.state      = (RxMessage.CAN_RxMessage[0])>>4;
+	DM4310s_yaw.p_int      = (RxMessage.CAN_RxMessage[1]<<8)|RxMessage.CAN_RxMessage[2];
+	DM4310s_yaw.v_int      = (RxMessage.CAN_RxMessage[3]<<4)|(RxMessage.CAN_RxMessage[4]>>4);
+	DM4310s_yaw.t_int      = ((RxMessage.CAN_RxMessage[4]&0xF)<<8)|RxMessage.CAN_RxMessage[5];
+	DM4310s_yaw.position   = uint_to_float(DM4310s_yaw.p_int, P_MIN, P_MAX, 16); // (-12.5,12.5)
+	DM4310s_yaw.speed      = uint_to_float(DM4310s_yaw.v_int, V_MIN, V_MAX, 12); // (-45.0,45.0)
+	DM4310s_yaw.torque     = uint_to_float(DM4310s_yaw.t_int, T_MIN, T_MAX, 12);  // (-18.0,18.0)
+	DM4310s_yaw.Temp_mos   = (float)(RxMessage.CAN_RxMessage[6]);
+	DM4310s_yaw.Temp_rotor = (float)(RxMessage.CAN_RxMessage[7]);
 	
 }

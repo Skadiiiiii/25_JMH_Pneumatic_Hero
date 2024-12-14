@@ -3,6 +3,7 @@
 #include "bsp_can.h"
 
 M3508s_t M3508s_chassis[4];
+M3508s_t M3508s_dial;
 
 /**
   * @brief	获取底盘四个3508的数据
@@ -23,6 +24,22 @@ void M3508_chassis_getInfo(Can_Export_Data_t RxMessage)
 }
 
 /**
+  * @brief	获取拨盘3508的数据
+  */
+void M3508_dial_getInfo(Can_Export_Data_t RxMessage)
+{   
+    M3508s_dial.rotor_angle = (uint16_t)(RxMessage.CAN_RxMessage[0] << 8 | RxMessage.CAN_RxMessage[1]);
+    M3508s_dial.rotor_speed = (int16_t)(RxMessage.CAN_RxMessage[2] << 8 | RxMessage.CAN_RxMessage[3]);
+    M3508s_dial.torque_current = (int16_t)(RxMessage.CAN_RxMessage[4] << 8 | RxMessage.CAN_RxMessage[5]);
+    M3508s_dial.temp = RxMessage.CAN_RxMessage[6];
+
+    //帧率统计，数据更新标志位
+    M3508s_dial.InfoUpdateFrame++;
+    M3508s_dial.InfoUpdateFlag = 1;
+}
+
+
+/**
   * @brief 	检查底盘驱动轮3508的状态
   */
 void Check_Chassis_3508(void)
@@ -39,6 +56,22 @@ void Check_Chassis_3508(void)
 		}
 		M3508s_chassis[i].InfoUpdateFrame = 0;
 	}
+}
+
+/**
+  * @brief 	检查拨盘3508的状态
+  */
+void Check_Dial_3508(void)
+{
+	if(M3508s_dial.InfoUpdateFrame < 1)
+	{
+		M3508s_dial.state = 0;
+	}
+	else
+	{
+		M3508s_dial.state = 1;
+	}
+	M3508s_dial.InfoUpdateFrame = 0;
 }
 
 /**

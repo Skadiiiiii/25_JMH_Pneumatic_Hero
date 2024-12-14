@@ -20,10 +20,10 @@
 #define LB_204_3508 3 //左后
 #define RB_201_3508 0 //右后
 
-#define RF_206_6020_Init_Angle 167 // 3791/22.7527
-#define RB_205_6020_Init_Angle 75 // 1720/22.7527
-#define LB_208_6020_Init_Angle 163  // 3700/22.7527
-#define LF_207_6020_Init_Angle 135 // 3081/22.7527
+#define RF_206_6020_Init_Angle 162.266 // 3692/22.7527
+#define RB_205_6020_Init_Angle 74.057 // 1685/22.7527
+#define LB_208_6020_Init_Angle 163.673  // 3724/22.7527
+#define LF_207_6020_Init_Angle 134.270 // 3055/22.7527
 
 
 #define RUD_OPSI       1
@@ -46,16 +46,10 @@ typedef struct
     int32_t Turns_flag;
 }RUD_Param_t;
 
-typedef enum
-{
-	RemoteControl	=	1,	//遥控器模式
-	KeyMouseControl =	2,//键鼠模式
-	Stop_car = 3  			//关闭机器
-}RemoteMode_e;
-
-
 void Chassis_Init(void);
-void Robot_Control_Disable(void);
-void Robot_Control_Fun(void);
+void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega);
+void Ship_ChassisWorkMode_follow(float Vx, float Vy);
+void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy);
+void Robot_control_chassis_disable();
 
 #endif

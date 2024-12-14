@@ -19,7 +19,8 @@ static void Limit_Calc (void)
     powerBuffErr = 60 - Power_Buffer;
 
     DRV_CalcRatio = 0;
-    DRV_CalcRatio = (float)Power_Buffer / debug_powercoe;
+//    DRV_CalcRatio = (float)Power_Buffer / debug_powercoe;
+		DRV_CalcRatio = (float)Power_Buffer / ext_game_robot_state.data.chassis_power_limit;
     DRV_CalcRatio *= DRV_CalcRatio;  // 平方的关系
 
     if(powerBuffErr > 0 /* && Infantry.Write_Msg[Cap_Ctrl] != true */)  // 若用到缓冲功率则进行功率限制处理
@@ -77,19 +78,19 @@ static void Limit(int16_t *wheelCurrent, int8_t amount)
     }
 }
 
-Chassis_PowerLimit_t Chassis_PowerLimit;	
+Chassis_PowerLimit_t Chassis_PowerLimit;
 int16_t drv_tempcurrent[8]; //老功率限制
 void chassis_power_control(Chassis_PowerLimit_t *chassis_power_control)
 {
 		for(uint8_t i = 0 ; i < 4 ; i++)
 		{
-			 drv_tempcurrent[i]   = M3508s_chassis[i].set_voltage;
+			 drv_tempcurrent[i]   = M3508s_chassis[i].set_current;
 			 drv_tempcurrent[i+4] = M6020s_chassis[i].set_voltage;
 		}
 		Limit(drv_tempcurrent,8);
 		for(uint8_t i = 0 ; i < 4 ; i++)
 		{
-			 M3508s_chassis[i].set_voltage = drv_tempcurrent[i];
+			 M3508s_chassis[i].set_current = drv_tempcurrent[i];
 			 M6020s_chassis[i].set_voltage = drv_tempcurrent[i+4];
 		} 
 }

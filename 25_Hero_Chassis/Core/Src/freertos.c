@@ -32,6 +32,8 @@
 #include "bsp_usart.h"
 #include "RM_JudgeSystem.h"
 #include "chassis_control.h"
+#include "DM4310_motor.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -178,6 +180,7 @@ void All_Init_Run(void const * argument)
 		JuageUsart_Init();  //裁判系统串口初始化
 		motor_pid_init();   //电机pid参数初始赋值
 		Chassis_Init();     //电机初始角度初始化
+		motor_enable();
 		SupCap.FUN.Init();  //超电初始化
 		
 		taskEXIT_CRITICAL();   //退出临界区

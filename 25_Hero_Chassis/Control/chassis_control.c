@@ -1,19 +1,16 @@
 #include "chassis_control.h"
-#include "dr16.h"
-#include "bsp_can.h"
+#include "cloud_control.h"
+#include "power_limit_control.h"
 #include "M3508_motor.h"
 #include "M6020_motor.h"
-#include "M2006_motor.h"
 #include "pid.h"
 #include <math.h>
-#include "cloud_control.h"
 #include "arm_math.h"
-#include "SupCap.h"
-#include "power_limit_control.h"
 
-int16_t speed_buff[4];
-RUD_Param_t RUD_Param[4]; /*<! 转向轮相关参数 */
-RemoteMode_e s_RemoteMode = Stop_car;
+int16_t speed_buff[4];		/*<! 驱动轮3508目标转速 */
+RUD_Param_t RUD_Param[4]; /*<! 转向轮6020相关参数 */
+
+uint8_t stop_pid_flag;		/*<! 静止PID标志位 */
 
 /**
   * @brief  取变量的绝对值
@@ -35,6 +32,13 @@ void Chassis_Init(void)
 	M6020s_chassis[RF_206_6020].Init_angle = RF_206_6020_Init_Angle - 45;
 	M6020s_chassis[RB_205_6020].Init_angle = RB_205_6020_Init_Angle + 45;
 	M6020s_chassis[LB_208_6020].Init_angle = LB_208_6020_Init_Angle - 45;
+	
+	RUD_Param[LF_207_6020].Init_angle = LF_207_6020_Init_Angle + 45;
+	RUD_Param[RF_206_6020].Init_angle = RF_206_6020_Init_Angle - 45;
+	RUD_Param[RB_205_6020].Init_angle = RB_205_6020_Init_Angle + 45;
+	RUD_Param[LB_208_6020].Init_angle = LB_208_6020_Init_Angle - 45;
+	
+	stop_pid_flag = 1;
 }
 
 /**
@@ -147,7 +151,6 @@ static void RUDTargetAngle_Calc(int8_t motor_num , int8_t reset , uint8_t opposi
  * @brief  舵轮运动解算(转向轮)
  */
 uint8_t spin_flag;
-uint8_t stop_pid_flag;
 float Radius = 1.0f;  // 圆心距
 static void RudAngle_Calc(int16_t Vx, int16_t Vy, int16_t Vw)
 {
@@ -272,7 +275,6 @@ static void Wheel_calc(int16_t Vx, int16_t Vy, int16_t Vw, int16_t *cal_speed)
             else
             {}
         }
-        
     }
     else
     {
@@ -339,13 +341,13 @@ static float* Speed_Decompose(float Vx, float Vy)
 /**
   * @brief  底盘使能
   */
-static void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega)
+void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega)
 {
 	Wheel_calc(Vx,Vy,VOmega,speed_buff);
 	
 	for (uint8_t i = 0; i < 4; i++)
 	{
-			M3508s_chassis[i].set_voltage = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
+			M3508s_chassis[i].set_current = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
 		
 			if(stop_pid_flag == 1)
 			{
@@ -360,10 +362,10 @@ static void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega)
 	chassis_power_control(&Chassis_PowerLimit);
 
 	set_M3508_200_voltage(&hcan2,
-							M3508s_chassis[0].set_voltage, 
-							M3508s_chassis[1].set_voltage, 
-							M3508s_chassis[2].set_voltage,
-							M3508s_chassis[3].set_voltage);	
+							M3508s_chassis[0].set_current, 
+							M3508s_chassis[1].set_current, 
+							M3508s_chassis[2].set_current,
+							M3508s_chassis[3].set_current);	
 	
 	set_M6020_1ff_voltage(&hcan2,
 							M6020s_chassis[0].set_voltage, 
@@ -376,7 +378,7 @@ static void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega)
 /**
   * @brief  底盘跟随模式
   */
-static void Ship_ChassisWorkMode_follow(float Vx, float Vy)
+void Ship_ChassisWorkMode_follow(float Vx, float Vy)
 {
 	int16_t Chassis_target_rotor_speed;
 
@@ -386,7 +388,7 @@ static void Ship_ChassisWorkMode_follow(float Vx, float Vy)
 								
 	for (uint8_t i = 0; i < 4; i++)
 	{
-			M3508s_chassis[i].set_voltage = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
+			M3508s_chassis[i].set_current = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
 		
 //			if(stop_pid_flag == 1)
 //			{
@@ -399,10 +401,10 @@ static void Ship_ChassisWorkMode_follow(float Vx, float Vy)
 	}
 
 	set_M3508_200_voltage(&hcan2,
-							M3508s_chassis[0].set_voltage,
-							M3508s_chassis[1].set_voltage,
-							M3508s_chassis[2].set_voltage,
-							M3508s_chassis[3].set_voltage);	
+							M3508s_chassis[0].set_current,
+							M3508s_chassis[1].set_current,
+							M3508s_chassis[2].set_current,
+							M3508s_chassis[3].set_current);	
 	
 	set_M6020_1ff_voltage(&hcan2,
 							M6020s_chassis[0].set_voltage, 
@@ -414,7 +416,7 @@ static void Ship_ChassisWorkMode_follow(float Vx, float Vy)
 /**
   * @brief  底盘小陀螺模式
   */
-static void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy)
+void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy)
 {
 	float* Chassis = Speed_Decompose(Vx,Vy);
 	float target_Vomega = 1500;
@@ -423,16 +425,16 @@ static void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy)
 								
 	for (uint8_t i = 0; i < 4; i++)
 	{
-			M3508s_chassis[i].set_voltage = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
+			M3508s_chassis[i].set_current = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
 		
 			M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 	}
 
 	set_M3508_200_voltage(&hcan2,
-							M3508s_chassis[0].set_voltage, 
-							M3508s_chassis[1].set_voltage, 
-							M3508s_chassis[2].set_voltage,
-							M3508s_chassis[3].set_voltage);	
+							M3508s_chassis[0].set_current, 
+							M3508s_chassis[1].set_current, 
+							M3508s_chassis[2].set_current,
+							M3508s_chassis[3].set_current);	
 	
 	set_M6020_1ff_voltage(&hcan2,
 							M6020s_chassis[0].set_voltage, 
@@ -442,136 +444,17 @@ static void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy)
 }
 
 /**
-  * @brief  拨盘使能
-  */
-static void Ship_ChassisWorkMode_shoot(float speed)
-{
-	M2006s.set_voltage = pid_calc(&motor_pid_shoot,speed,M2006s.rotor_speed);
-	
-	set_M2006_200_voltage(&hcan1,M2006s.set_voltage,0,0,0);
-}
-
-/**
   * @brief  底盘失能
   */
-static void Robot_control_chassis_disable()
+void Robot_control_chassis_disable()
 {
 	for(uint8_t i = 0;i < 4;i++)
 	{
-		M3508s_chassis[i].set_voltage = 0;
+		M3508s_chassis[i].set_current = 0;
 		M6020s_chassis[i].set_voltage = 0;
 	}
 	set_M3508_200_voltage(&hcan2,0,0,0,0);
 	set_M6020_1ff_voltage(&hcan2,0,0,0,0);
-	set_M2006_200_voltage(&hcan1,0,0,0,0);
 }
 
-/**
-	* @brief  设置遥控模式
-  */
-void SetRemoteMode(void)
-{
-	
-	if(DR16.rc.sw1 == remote_rc_mid && DR16.rc.sw2 == remote_rc_mid)
-	{
-		SetSuperCap_Mode(Cap_Enable); 
-		SupCap.FUN.SupCap_SupplySwitch(Power_Supply);
-	}
-	else
-	{	
-		SetSuperCap_Mode(Cap_Close);
-		SupCap.FUN.SupCap_SupplySwitch(Power_NotSupply);
-	}
-	if(DR16.rc.sw1 == remote_rc_up && DR16.rc.sw2 == remote_rc_up)
-	{
-		s_RemoteMode = KeyMouseControl;//键鼠模式
-	}
-	else
-	{
-		s_RemoteMode = RemoteControl;//遥控模式
-	}
-}
-
-/**
-  * @brief  机器人主控制
-  */
-static void Robot_control ()        
-{
-	if(DR16_Export_Data.ControlSwitch->Left == 3  && DR16_Export_Data.ControlSwitch->Right == 2)//左中右下（底盘）
-	{
-		DR16_Export_Data.ChassisWorkMode = WorkMode_Chassis;
-		Ship_ChassisWorkMode(14.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-												 14.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
-												 -10.0f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
-	}
-	else if(DR16_Export_Data.ControlSwitch->Left == 2 && DR16_Export_Data.ControlSwitch->Right == 3)//左下右中（云台）
-	{
-		DR16_Export_Data.ChassisWorkMode = WorkMode_Cloud;
-		Robot_control_chassis_disable(); 
-	}
-//	else if(DR16_Export_Data.ControlSwitch->Left == 3 && DR16_Export_Data.ControlSwitch->Right == 3)//双中（跟随）
-//	{
-//		DR16_Export_Data.ChassisWorkMode = WorkMode_Follow;
-//		
-//		Ship_ChassisWorkMode_follow(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-//																10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
-//	}
-	else if(DR16_Export_Data.ControlSwitch->Left == 3 && DR16_Export_Data.ControlSwitch->Right == 3)//双中（跟随）
-	{
-		DR16_Export_Data.ChassisWorkMode = WorkMode_Chassis;
-		Ship_ChassisWorkMode(14.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-												 14.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
-												 -10.0f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
-	}
-	else if(DR16_Export_Data.ControlSwitch->Left == 1 && DR16_Export_Data.ControlSwitch->Right == 3)//左上右中（发射）
-	{
-		DR16_Export_Data.ChassisWorkMode = WorkMode_Shoot;
-	
-		Ship_ChassisWorkMode_shoot(15.0f * DR16.rc.roll);
-		Ship_ChassisWorkMode_follow(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-															10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
-	}
-	else if(DR16_Export_Data.ControlSwitch->Left == 3 && DR16_Export_Data.ControlSwitch->Right == 1)//左中右上（小陀螺）
-	{
-		DR16_Export_Data.ChassisWorkMode = WorkMode_Tuoluo;
-	
-		Ship_ChassisWorkMode_Tuoluo(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-															10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
-	}
-	else if(DR16_Export_Data.ControlSwitch->Left == 2 && DR16_Export_Data.ControlSwitch->Right == 2)//双下（失能）
-	{
-		DR16_Export_Data.ChassisWorkMode = WorkMode_Disable;
-		if(DR16_Export_Data.Robot_TargetValue.Omega_Value != 0)
-		{
-			read_start_yaw();
-		}
-		Robot_control_chassis_disable();	
-	}
-	else
-	{
-		Robot_control_chassis_disable();	
-		DR16_Export_Data.ChassisWorkMode = 0;
-	}
-}
-
-/**
-  * @brief	遥控器控制机器人
-**/
-void Robot_Control_Fun()
-{
-	SupCap.FUN.SendMsg();
-	SetRemoteMode();
-	SupCap.FUN.Ctrl();
-	RemoteControl_Output();
-	Robot_control();
-}
-
-/**
-  * @brief  遥控器控制机器人
-**/
-void Robot_Control_Disable()
-{
-	Robot_control_chassis_disable();	
-	DR16_Export_Data.ChassisWorkMode = 0;
-}
 

@@ -22,10 +22,13 @@ typedef struct
 } M3508s_t;
 
 extern M3508s_t M3508s_chassis[4];
+extern M3508s_t M3508s_dial;
 
 void set_M3508_200_voltage(CAN_HandleTypeDef *CANx,int16_t v1, int16_t v2, int16_t v3, int16_t v4);
 void set_M3508_1ff_voltage(CAN_HandleTypeDef *CANx,int16_t v1, int16_t v2, int16_t v3, int16_t v4);
 void M3508_chassis_getInfo(Can_Export_Data_t RxMessage);
+void M3508_dial_getInfo(Can_Export_Data_t RxMessage);
 void Check_Chassis_3508(void);
+void Check_Dial_3508(void);
 
 #endif

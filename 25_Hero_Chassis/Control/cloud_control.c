@@ -1,9 +1,6 @@
 #include "cloud_control.h"
-#include "bsp_can.h"
-#include "M3508_motor.h"
-#include "M6020_motor.h"
+#include "DM4310_motor.h"
 #include "pid.h"
-
 
 /**
   * @brief  过零处理，计算最小偏差
@@ -44,4 +41,34 @@ float Turn_InferiorArc(float target, float current)
 	}
 }
 
+/**
+  * @brief  云台使能		
+  */
+bool yaw_enable;
+void Ship_ChassisWorkMode_cloud(float delta_yaw)
+{
+	
+	if(yaw_enable == 0)
+	{
+		motor_enable();
+		yaw_enable = 1;
+	}
+	
+	DM4310s_yaw.target_rotor_angle = DM4310s_yaw.position;
+	DM4310s_yaw.target_rotor_angle += delta_yaw;
+		
+
+	DM4310s_yaw.torque = pid_CascadeCalc(&motor_pid_Cas_Yaw, DM4310s_yaw.target_rotor_angle,DM4310s_yaw.position,DM4310s_yaw.speed);
+	
+	MIT_CtrlMotor(&hcan1,DM_Send_ID,0,0,0,0,DM4310s_yaw.torque);
+}
+
+/**
+  * @brief  云台失能
+  */
+void Robot_control_cloud_disable()
+{
+	motor_disable();
+	yaw_enable = 0;
+}
 

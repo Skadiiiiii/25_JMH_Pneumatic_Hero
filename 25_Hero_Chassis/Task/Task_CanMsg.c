@@ -2,6 +2,7 @@
 #include "M3508_Motor.h"
 #include "M6020_Motor.h"
 #include "M2006_Motor.h"
+#include "DM4310_motor.h"
 #include "Power_Meter.h"
 #include "SupCap.h"
 
@@ -16,13 +17,13 @@ void CAN1_REC(void const *argument)
 	{
 		xQueueReceive(CAN1_ReceiveHandle, &Can_Export_Data, portMAX_DELAY);
 		ID = Can_Export_Data.CAN_RxHeader.StdId;
-		if (ID == M6020_Yaw_ID)
+		if (ID == DM_Receive_ID)
 		{
-			M6020_Yaw_getInfo(Can_Export_Data);
+			DM_4310_getInfo(Can_Export_Data);
 		}
-		else if (ID == M2006_Shoot_ID)
+		else if (ID == M3508_Dial_ID)
 		{
-			M2006_shoot_getInfo(Can_Export_Data);
+			M3508_dial_getInfo(Can_Export_Data);
 		}
 		else if(ID == INA226_CANID)
 		{
