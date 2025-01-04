@@ -53,5 +53,5 @@
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\timers.h \
   C:\keil5\ARM\ARMCLANG\Bin\..\include\string.h ..\Motor\M6020_motor.h \
   C:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  ..\Control\cloud_control.h ..\Algorithm\AddMath.h \
-  C:\keil5\ARM\ARMCLANG\Bin\..\include\math.h
+  ..\Control\cloud_control.h ..\Motor\DM4310_motor.h ..\Algorithm\pid.h \
+  ..\Algorithm\AddMath.h C:\keil5\ARM\ARMCLANG\Bin\..\include\math.h

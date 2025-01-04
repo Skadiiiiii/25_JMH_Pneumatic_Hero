@@ -9,7 +9,7 @@
 #define BYTE3(dwTemp) (*((char *)(&dwTemp)+3))//取高二十四位
 
 
-void sent_data_ano(UART_HandleTypeDef* huart,float A,float B,int16_t C);
+void sent_data_ano(UART_HandleTypeDef* huart,float A,float B,float C);
 
 #endif
 

@@ -81,7 +81,6 @@ typedef struct
 {
     RemotePole_e Left;
     RemotePole_e Right;
-
 } ControlSwitch_t; //Ò£¿ØÆ÷µÄs1¡¢s2²¦¸Ë
 
 

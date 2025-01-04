@@ -54,4 +54,9 @@
   ..\Core\Inc\usart.h C:\keil5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   C:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h ..\Algorithm\pid.h \
   ..\Devices\SupCap.h ..\BSP\bsp_usart.h ..\Devices\RM_JudgeSystem.h \
-  ..\Control\chassis_control.h ..\Motor\DM4310_motor.h
+  ..\Control\chassis_control.h ..\Control\chassis_control.h \
+  ..\Control\cloud_control.h ..\Motor\DM4310_motor.h \
+  ..\Control\power_limit_control.h \
+  C:\keil5\ARM\ARMCLANG\Bin\..\include\math.h ..\Motor\M3508_motor.h \
+  ..\Motor\M6020_motor.h ..\Algorithm\AddMath.h ..\Devices\Power_Meter.h \
+  ..\Control\PowerController.h ..\Drivers\CMSIS\DSP\Include\arm_math.h

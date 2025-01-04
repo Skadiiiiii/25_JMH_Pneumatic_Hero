@@ -1,27 +1,10 @@
 #include "chassis_control.h"
-#include "cloud_control.h"
-#include "power_limit_control.h"
-#include "M3508_motor.h"
-#include "M6020_motor.h"
-#include "pid.h"
-#include <math.h>
-#include "arm_math.h"
 
 int16_t speed_buff[4];		/*<! 驱动轮3508目标转速 */
 RUD_Param_t RUD_Param[4]; /*<! 转向轮6020相关参数 */
 
 uint8_t stop_pid_flag;		/*<! 静止PID标志位 */
 
-/**
-  * @brief  取变量的绝对值
-  */
-static float abs(float num)
-{
-		int temp;
-		if(num<0) temp=-num;
-		else temp=num;
-		return temp;
-}
 
 /**
   * @brief  设置底盘转向轮6020初始角度（45°归中）
@@ -351,27 +334,30 @@ void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega)
 		
 			if(stop_pid_flag == 1)
 			{
-				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 			}
 			else
 			{
-				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 			}
 	}
 	
 	chassis_power_control(&Chassis_PowerLimit);
 
-	set_M3508_200_voltage(&hcan2,
+	set_M3508_200_current(&hcan2,
 							M3508s_chassis[0].set_current, 
 							M3508s_chassis[1].set_current, 
 							M3508s_chassis[2].set_current,
 							M3508s_chassis[3].set_current);	
 	
-	set_M6020_1ff_voltage(&hcan2,
-							M6020s_chassis[0].set_voltage, 
-							M6020s_chassis[1].set_voltage, 
-							M6020s_chassis[2].set_voltage, 
-							M6020s_chassis[3].set_voltage);	
+	set_M6020_1fe_current(&hcan2,
+							M6020s_chassis[0].set_current, 
+							M6020s_chassis[1].set_current, 
+							M6020s_chassis[2].set_current, 
+							M6020s_chassis[3].set_current);	
+	
+//		set_M3508_200_current(&hcan2,0,0,0,0);	
+//		set_M6020_1fe_current(&hcan2,0,0,0,0);	
 
 }
 
@@ -392,25 +378,25 @@ void Ship_ChassisWorkMode_follow(float Vx, float Vy)
 		
 //			if(stop_pid_flag == 1)
 //			{
-//				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+//				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020_stop[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 //			}
 //			else
 //			{
-				M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+				M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 //			}
 	}
 
-	set_M3508_200_voltage(&hcan2,
+	set_M3508_200_current(&hcan2,
 							M3508s_chassis[0].set_current,
 							M3508s_chassis[1].set_current,
 							M3508s_chassis[2].set_current,
 							M3508s_chassis[3].set_current);	
 	
-	set_M6020_1ff_voltage(&hcan2,
-							M6020s_chassis[0].set_voltage, 
-							M6020s_chassis[1].set_voltage, 
-							M6020s_chassis[2].set_voltage, 
-							M6020s_chassis[3].set_voltage);		
+	set_M6020_1fe_current(&hcan2,
+							M6020s_chassis[0].set_current, 
+							M6020s_chassis[1].set_current, 
+							M6020s_chassis[2].set_current, 
+							M6020s_chassis[3].set_current);		
 }
 
 /**
@@ -427,20 +413,20 @@ void Ship_ChassisWorkMode_Tuoluo(float Vx, float Vy)
 	{
 			M3508s_chassis[i].set_current = pid_calc(&motor_pid_chassis[i], speed_buff[i], M3508s_chassis[i].rotor_speed);
 		
-			M6020s_chassis[i].set_voltage = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
+			M6020s_chassis[i].set_current = pid_CascadeCalc(&motor_pid_chassis_6020[i], RUD_Param[i].Target_angle, RUD_Param[i].Total_angle,M6020s_chassis[i].rotor_speed);
 	}
 
-	set_M3508_200_voltage(&hcan2,
+	set_M3508_200_current(&hcan2,
 							M3508s_chassis[0].set_current, 
 							M3508s_chassis[1].set_current, 
 							M3508s_chassis[2].set_current,
 							M3508s_chassis[3].set_current);	
 	
-	set_M6020_1ff_voltage(&hcan2,
-							M6020s_chassis[0].set_voltage, 
-							M6020s_chassis[1].set_voltage, 
-							M6020s_chassis[2].set_voltage, 
-							M6020s_chassis[3].set_voltage);	
+	set_M6020_1fe_current(&hcan2,
+							M6020s_chassis[0].set_current, 
+							M6020s_chassis[1].set_current, 
+							M6020s_chassis[2].set_current, 
+							M6020s_chassis[3].set_current);	
 }
 
 /**
@@ -451,10 +437,10 @@ void Robot_control_chassis_disable()
 	for(uint8_t i = 0;i < 4;i++)
 	{
 		M3508s_chassis[i].set_current = 0;
-		M6020s_chassis[i].set_voltage = 0;
+		M6020s_chassis[i].set_current = 0;
 	}
-	set_M3508_200_voltage(&hcan2,0,0,0,0);
-	set_M6020_1ff_voltage(&hcan2,0,0,0,0);
+	set_M3508_200_current(&hcan2,0,0,0,0);
+	set_M6020_1fe_current(&hcan2,0,0,0,0);
 }
 
 

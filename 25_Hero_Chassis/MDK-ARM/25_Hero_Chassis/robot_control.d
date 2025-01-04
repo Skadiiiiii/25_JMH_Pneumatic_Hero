@@ -51,11 +51,14 @@
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\timers.h \
   ..\Control\cloud_control.h \
-  C:\keil5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\Control\shoot_control.h ..\Control\power_limit_control.h \
-  C:\keil5\ARM\ARMCLANG\Bin\..\include\string.h \
-  C:\keil5\ARM\ARMCLANG\Bin\..\include\math.h ..\Motor\M3508_motor.h \
+  C:\keil5\ARM\ARMCLANG\Bin\..\include\stdbool.h ..\Motor\DM4310_motor.h \
   ..\BSP\bsp_can.h ..\Core\Inc\can.h ..\Core\Inc\main.h \
+  C:\keil5\ARM\ARMCLANG\Bin\..\include\string.h ..\Algorithm\pid.h \
+  ..\Control\power_limit_control.h \
+  C:\keil5\ARM\ARMCLANG\Bin\..\include\math.h ..\Motor\M3508_motor.h \
   ..\Motor\M6020_motor.h C:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  ..\Devices\RM_JudgeSystem.h ..\Algorithm\AddMath.h \
+  ..\Devices\Power_Meter.h ..\Control\PowerController.h \
+  ..\Drivers\CMSIS\DSP\Include\arm_math.h ..\Control\shoot_control.h \
   ..\Control\robot_control.h ..\Devices\SupCap.h ..\Devices\dr16.h \
   ..\Core\Inc\usart.h

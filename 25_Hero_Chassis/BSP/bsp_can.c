@@ -4,7 +4,6 @@
 #include "M2006_motor.h"
 #include "M3508_motor.h"
 
-Can_Data_t Can_Data[2] = Can_DataGroundInit;
 Can_Export_Data_t Can1_Export_Data;//用来存储接收到的CAN1数据
 Can_Export_Data_t Can2_Export_Data;//用来存储接收到的CAN2数据
 

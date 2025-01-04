@@ -75,9 +75,9 @@ void Check_Dial_3508(void)
 }
 
 /**
-  * @brief	发送标识符为0x200的3508的目标电压值
+  * @brief	发送标识符为0x200的3508的目标电流值
   */
-void set_M3508_200_voltage(CAN_HandleTypeDef *CANx,int16_t v1, int16_t v2, int16_t v3, int16_t v4)//形参表示4个电机的电压值
+void set_M3508_200_current(CAN_HandleTypeDef *CANx,int16_t v1, int16_t v2, int16_t v3, int16_t v4)//形参表示4个电机的电压值
 {
 	CAN_TxHeaderTypeDef tx_header;//用来存储发送的CAN帧的头部信息，包括帧ID、帧类型、帧长度等
   uint8_t             tx_data[8];//用来存储接发送的CAN帧的数据部分
@@ -101,9 +101,9 @@ void set_M3508_200_voltage(CAN_HandleTypeDef *CANx,int16_t v1, int16_t v2, int16
 }
 
 /**
-  * @brief	发送标识符为0x1ff的3508的目标电压值
+  * @brief	发送标识符为0x1ff的3508的目标电流值
   */
-void set_M3508_1ff_voltage(CAN_HandleTypeDef *CANx,int16_t v1, int16_t v2, int16_t v3, int16_t v4)//形参表示4个电机的电压值
+void set_M3508_1ff_current(CAN_HandleTypeDef *CANx,int16_t v1, int16_t v2, int16_t v3, int16_t v4)//形参表示4个电机的电压值
 {
 	CAN_TxHeaderTypeDef tx_header;//用来存储发送的CAN帧的头部信息，包括帧ID、帧类型、帧长度等
   uint8_t             tx_data[8];//用来存储接发送的CAN帧的数据部分

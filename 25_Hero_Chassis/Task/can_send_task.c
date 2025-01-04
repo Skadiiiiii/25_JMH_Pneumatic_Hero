@@ -6,6 +6,12 @@
 #include "M3508_motor.h"
 #include "chassis_control.h"
 
+
+#include "ANO.h"
+#include "Power_Meter.h"
+#include "RM_JudgeSystem.h"
+#include "power_limit_control.h"
+
 DR16_data_t can1_send_data;
 uint8_t DR16_Date[8];
 
@@ -39,6 +45,10 @@ static void DR16_0x175_Can1_SendData(uint8_t *data)
 	memcpy(data, &can1_send_data.data, sizeof(can1_send_data.data));
 		
   HAL_CAN_AddTxMessage(&hcan1,&TxMessage,data,0);
+	
+//	sent_data_ano(&huart7,Power_Meter.Chassis_RealPower - Chassis_Power_M3508.k3,Chassis_Power_M6020.commandPower,Chassis_Power_M6020.estimatedPower);
+
+//sent_data_ano(&huart7,speed_buff[0],M3508s_chassis[0].rotor_speed,(speed_buff[0] - M3508s_chassis[0].rotor_speed)*100);
 }
 
 

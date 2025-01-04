@@ -44,6 +44,7 @@ static void Robot_control ()
 		DR16_Export_Data.ChassisWorkMode = WorkMode_Chassis;
 		
 		Robot_control_cloud_disable();
+		Ship_ChassisWorkMode_shoot_stop();
 		
 		Ship_ChassisWorkMode(14.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
 												 14.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
@@ -53,22 +54,23 @@ static void Robot_control ()
 	{
 		DR16_Export_Data.ChassisWorkMode = WorkMode_Cloud;
 		Robot_control_chassis_disable(); 
+		Ship_ChassisWorkMode_shoot_stop();
 		
 		Ship_ChassisWorkMode_cloud(0.0003f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
 		
 	}
 	else if(DR16_Export_Data.ControlSwitch->Left == 3 && DR16_Export_Data.ControlSwitch->Right == 3)//双中（跟随）
 	{
-//		DR16_Export_Data.ChassisWorkMode = WorkMode_Follow;
-//		
+		DR16_Export_Data.ChassisWorkMode = WorkMode_Follow;
+	
 //		Ship_ChassisWorkMode_follow(10.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
 //																10.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value);
 		
-//		Ship_ChassisWorkMode(14.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
-//												 14.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
-//												 -10.0f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
-		
-		Ship_ChassisWorkMode_cloud(0.0003f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
+		Ship_ChassisWorkMode(14.0f*DR16_Export_Data.Robot_TargetValue.Left_Right_Value,
+												 14.0f*DR16_Export_Data.Robot_TargetValue.Forward_Back_Value,
+												 -10.0f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
+		Ship_ChassisWorkMode_shoot_stop();
+//		Ship_ChassisWorkMode_cloud(0.0003f*DR16_Export_Data.Robot_TargetValue.Yaw_Value);
 	}
 	else if(DR16_Export_Data.ControlSwitch->Left == 1 && DR16_Export_Data.ControlSwitch->Right == 3)//左上右中（发射）
 	{

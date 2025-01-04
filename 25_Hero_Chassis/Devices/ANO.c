@@ -5,7 +5,7 @@
 /**
   * @brief	匿名上位机协议
   */
-void sent_data_ano(UART_HandleTypeDef* huart,float A,float B,int16_t C)
+void sent_data_ano(UART_HandleTypeDef* huart,float A,float B,float C)
 {	
 		uint8_t BUFF[100];
 		uint8_t _cnt = 0;
@@ -15,7 +15,7 @@ void sent_data_ano(UART_HandleTypeDef* huart,float A,float B,int16_t C)
 		BUFF[_cnt++]=0xFF;//源地址
 		BUFF[_cnt++]=0xFF;//目标地址
 		BUFF[_cnt++]=0xF1;//功能码(ID)
-		BUFF[_cnt++]=10;//数据长度(2字节)
+		BUFF[_cnt++]=12;//数据长度(2字节)
 		BUFF[_cnt++]=0;//数据长度
 		BUFF[_cnt++]=BYTE0(A);//数据内容A（2字节）
 		BUFF[_cnt++]=BYTE1(A);//数据内容A
@@ -29,6 +29,8 @@ void sent_data_ano(UART_HandleTypeDef* huart,float A,float B,int16_t C)
 	
 		BUFF[_cnt++]=BYTE0(C);
 		BUFF[_cnt++]=BYTE1(C);
+		BUFF[_cnt++]=BYTE2(C);
+		BUFF[_cnt++]=BYTE3(C);
 	
 		uint8_t sumcheck = 0;
 		uint8_t addcheck = 0;

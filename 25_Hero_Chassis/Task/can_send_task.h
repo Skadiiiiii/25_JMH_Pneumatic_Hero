@@ -22,14 +22,6 @@ typedef struct
 	int64_t  Pitch_Value:12;
 }DR_data_t;
 
-////# pragma pack(1)
-//typedef struct 
-//{
-//	int Left_Right_Value : 2;
-//	char a: 1;
-//}DR_data;
-////#pragma pack()
-
 
 typedef union//π≤”√ÃÂ
 {

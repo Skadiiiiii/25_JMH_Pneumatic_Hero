@@ -54,4 +54,10 @@
   C:\keil5\ARM\ARMCLANG\Bin\..\include\string.h ..\Algorithm\AddMath.h \
   C:\keil5\ARM\ARMCLANG\Bin\..\include\math.h ..\Devices\dr16.h \
   ..\Core\Inc\usart.h C:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  ..\Devices\RM_JudgeSystem.h ..\Control\chassis_control.h
+  ..\Devices\RM_JudgeSystem.h ..\Control\chassis_control.h \
+  ..\Control\chassis_control.h ..\Control\cloud_control.h \
+  ..\Motor\DM4310_motor.h ..\Algorithm\pid.h \
+  ..\Control\power_limit_control.h ..\Motor\M3508_motor.h \
+  ..\Motor\M6020_motor.h ..\Devices\RM_JudgeSystem.h \
+  ..\Devices\Power_Meter.h ..\Control\PowerController.h \
+  ..\Drivers\CMSIS\DSP\Include\arm_math.h

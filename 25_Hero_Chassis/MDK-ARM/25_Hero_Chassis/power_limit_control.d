@@ -56,4 +56,5 @@
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\timers.h \
   ..\Motor\M6020_motor.h C:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   ..\Devices\RM_JudgeSystem.h ..\Algorithm\AddMath.h \
-  ..\Devices\Power_Meter.h ..\Core\Inc\main.h
+  ..\Devices\Power_Meter.h ..\Core\Inc\main.h \
+  ..\Control\PowerController.h

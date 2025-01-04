@@ -1,6 +1,4 @@
 #include "cloud_control.h"
-#include "DM4310_motor.h"
-#include "pid.h"
 
 /**
   * @brief  过零处理，计算最小偏差
@@ -47,7 +45,6 @@ float Turn_InferiorArc(float target, float current)
 bool yaw_enable;
 void Ship_ChassisWorkMode_cloud(float delta_yaw)
 {
-	
 	if(yaw_enable == 0)
 	{
 		motor_enable();
@@ -57,7 +54,6 @@ void Ship_ChassisWorkMode_cloud(float delta_yaw)
 	DM4310s_yaw.target_rotor_angle = DM4310s_yaw.position;
 	DM4310s_yaw.target_rotor_angle += delta_yaw;
 		
-
 	DM4310s_yaw.torque = pid_CascadeCalc(&motor_pid_Cas_Yaw, DM4310s_yaw.target_rotor_angle,DM4310s_yaw.position,DM4310s_yaw.speed);
 	
 	MIT_CtrlMotor(&hcan1,DM_Send_ID,0,0,0,0,DM4310s_yaw.torque);

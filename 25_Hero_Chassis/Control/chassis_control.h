@@ -1,7 +1,18 @@
+#pragma once
+
 #ifndef CHASSIS_CONTROL_H
 #define CHASSIS_CONTROL_H
+
 #include "main.h"
 #include "cmsis_os.h"
+#include "chassis_control.h"
+#include "cloud_control.h"
+#include "power_limit_control.h"
+#include "M3508_motor.h"
+#include "M6020_motor.h"
+#include "pid.h"
+#include <math.h>
+#include "arm_math.h"
 
 #define WorkMode_Cloud 12
 #define WorkMode_Chassis 21
@@ -23,7 +34,7 @@
 #define RF_206_6020_Init_Angle 162.266 // 3692/22.7527
 #define RB_205_6020_Init_Angle 74.057 // 1685/22.7527
 #define LB_208_6020_Init_Angle 163.673  // 3724/22.7527
-#define LF_207_6020_Init_Angle 134.270 // 3055/22.7527
+#define LF_207_6020_Init_Angle 71.332 // 1623/22.7527
 
 
 #define RUD_OPSI       1
@@ -45,6 +56,9 @@ typedef struct
     int32_t TarTurns_cnt;
     int32_t Turns_flag;
 }RUD_Param_t;
+
+extern int16_t speed_buff[4];		/*<! 驱动轮3508目标转速 */
+extern RUD_Param_t RUD_Param[4]; /*<! 转向轮6020相关参数 */
 
 void Chassis_Init(void);
 void Ship_ChassisWorkMode(float Vx, float Vy,float VOmega);
